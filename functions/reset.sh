@@ -9,15 +9,13 @@ function help_SHELL_PREFIX_reset() {
 printf "`cat << EOF
 ${BLUE}SHELL_PREFIX reset${NC}
 
-Load and execute $PREFIX_BASHENV/activate.sh in this shell.
+In this shell, execute:
+  $VAR_PREFIX/activate.sh
 
-This will cause the entire SHELL_PREFIX runtime to be reloaded, so any changes to
-functions or core abilities (e.g. SHELL_PREFIX-repl, SHELL_PREFIX-help, activate) will be
-processed.
+This will cause the entire ${YELLOW}SHELL_PREFIX${NC} runtime to be reloaded,
+so any changes to functions or commands will be processed.
 
-Example Run:
-  bashenv > SHELL_PREFIX reset
-  Successful Reset : SHELL_PREFIX setenv =  /Users/kisia/Desktop @test:77eeddf, has changes
+This will update the activation count from ${YELLOW}$VAR_PREFIX_ACTIVATION_COUNT${NC} to ${YELLOW}$(expr $VAR_PREFIX_ACTIVATION_COUNT + 1)${NC}
 
 EOF
 `\n"

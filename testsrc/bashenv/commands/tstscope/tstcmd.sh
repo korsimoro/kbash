@@ -3,11 +3,9 @@
 
 function print_help() {
 printf "`cat << EOF
-${BLUE}SHELL_PREFIX tstfunc <repo>${NC}
+${BLUE}SHELL_PREFIX tstscope tstcmd${NC}
 
-This is a shell function, which changes the current working
-directory to $PREFIX/<repo>
-and if no <repo> is provided this is equivalent to ${BLUE}kx home${NC}.
+This is a test function nested in a scope
 
 EOF
 `\n\n"

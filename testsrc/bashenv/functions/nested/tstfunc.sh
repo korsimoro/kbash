@@ -6,11 +6,9 @@ function oneline_help_SHELL_PREFIX_nested_tstfunc() {
 
 function help_SHELL_PREFIX_nested_tstfunc() {
 printf "`cat << EOF
-${BLUE}SHELL_PREFIX nested_tstfunc <repo>${NC}
+${BLUE}SHELL_PREFIX nested_tstfunc${NC}
 
-This is a shell function, which changes the current working
-directory to $PREFIX/<repo>
-and if no <repo> is provided this is equivalent to ${BLUE}kx home${NC}.
+This is an example of a nested function
 
 EOF
 `\n\n"

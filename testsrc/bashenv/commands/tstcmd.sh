@@ -3,11 +3,9 @@
 
 function print_help() {
 printf "`cat << EOF
-${BLUE}SHELL_PREFIX tstfunc <repo>${NC}
+${BLUE}SHELL_PREFIX tstcmd${NC}
 
-This is a shell function, which changes the current working
-directory to $PREFIX/<repo>
-and if no <repo> is provided this is equivalent to ${BLUE}kx home${NC}.
+This is a tstcmd at the root level.
 
 EOF
 `\n\n"

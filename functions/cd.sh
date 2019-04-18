@@ -1,16 +1,19 @@
 #!/bin/bash
 
 function oneline_help_SHELL_PREFIX_cd() {
-  echo "cd home, or into $VAR_PREFIX/[C]."
+  echo "cd $VAR_PREFIX/[PATH] (or base w/o arg)"
 }
 
 function help_SHELL_PREFIX_cd() {
 printf "`cat << EOF
-${BLUE}SHELL_PREFIX cd <repo>${NC}
+${BLUE}SHELL_PREFIX cd [PATH]${NC}
 
 This is a shell function, which changes the current working
-directory to $PREFIX/<repo>
-and if no <repo> is provided this is equivalent to ${BLUE}SHELL_PREFIX home${NC}.
+directory to
+  ${YELLOW}$VAR_PREFIX/[PATH]${NC}.
+
+If no PATH is provided, this just cds into
+  ${YELLOW}$VAR_PREFIX${NC}
 
 EOF
 `\n\n"

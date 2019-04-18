@@ -2,17 +2,21 @@
 #
 # Given a base directory and a command
 #
-SHELL_PREFIX_execute() (
+SHELL_PREFIX_execute() {
   local FILE=$1
   local HELP=$2
   shift 1
   . $FILE
-  if [ "$HELP" = "help" ]; then
-    SHELL_PREFIX_print_help
+  if [ "$HELP" == "help" ] ||\
+     [ "$HELP" == "--help" ] ||\
+     [ "$HELP" == "-help" ] ||\
+     [ "$HELP" == "?" ] ||\
+     [ "$HELP" == "-h" ]; then
+    print_help
   else
     run $@
   fi
-)
+}
 
 #
 # given a command of the form COMMAND <subcommand> .... look for a
@@ -44,7 +48,12 @@ SHELL_PREFIX_locate_subcommand() (
   fi
 
   # fall through to look for commands
-  if [ -z "$COMMAND" ]; then
+  if [ -z "$COMMAND" ] ||\
+     [ "$COMMAND" == "help" ] ||\
+     [ "$COMMAND" == "--help" ] ||\
+     [ "$COMMAND" == "-help" ] ||\
+     [ "$COMMAND" == "?" ] ||\
+     [ "$COMMAND" == "-h" ]; then
     SHELL_PREFIX_print_scope_help
     exit 0
   else
@@ -74,7 +83,11 @@ SHELL_PREFIX() {
      shift 1
      TYPE="$(type -t $FUNC)"
      if [ "$TYPE" = "function" ]; then
-       if [ "$1" == "help" ]; then
+       if [ "$1" == "help" ] ||\
+          [ "$1" == "--help" ] ||\
+          [ "$1" == "-help" ] ||\
+          [ "$1" == "?" ] ||\
+          [ "$1" == "-h" ]; then
          help_SHELL_PREFIX_$TAG
        else
          $FUNC "$@"

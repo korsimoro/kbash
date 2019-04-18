@@ -6,11 +6,9 @@ function oneline_help_SHELL_PREFIX_tstfunc() {
 
 function help_SHELL_PREFIX_tstfunc() {
 printf "`cat << EOF
-${BLUE}kx tstfunc <repo>${NC}
+${BLUE}SHELL_PREFIX tstfunc${NC}
 
-This is a shell function, which changes the current working
-directory to $PREFIX/<repo>
-and if no <repo> is provided this is equivalent to ${BLUE}kx home${NC}.
+This is an example of a function at the root level.
 
 EOF
 `\n\n"
