@@ -5,18 +5,18 @@
 function print_component_help() {
   local FUNC=$1
   shift 1
-  local HELP_FUNC="oneline_help_kd_$FUNC"
+  local HELP_FUNC="oneline_help_SHELL_PREFIX_$FUNC"
   printf "`cat << EOF
-${BLUE}kd $FUNC [COMPONENT] [SUBCOMMAND] ...${NC}
+${BLUE}SHELL_PREFIX $FUNC [COMPONENT] ...${NC}
 
   Goal : ${YELLOW}$($HELP_FUNC )${NC}
 
   Available Environments:
 EOF
 `\n\n"
-  #echo $FUNC all
-  for COMPONENT in $SHELL_PREFIX_COMPONENT_LIST; do
-    echo "   $FUNC $COMPONENT"
+  for COMPONENT in $VAR_PREFIX_COMPONENT_LIST; do
+    local HELP_FUNC="oneline_description_of_$COMPONENT"
+    echo "   $COMPONENT  $($HELP_FUNC )"
   done
 }
 

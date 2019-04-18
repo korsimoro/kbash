@@ -33,7 +33,7 @@ k_bashenv_load_functions_from_dir() {
   local BASHENV_VAR="${VAR_PREFIX}_FUNCTION_LIST"
 
   for FUNCTION_FILE in $FUNC_FILES; do
-    local FUNC_NAME=$(echo "$FUNCTION_FILE" | sed s/[/]/_/g | sed s/.sh//g )
+    local FUNC_NAME=$(function_slug "$FUNCTION_FILE" )
     k_bashenv_shell_integrate "$SHELL_PREFIX" "$VAR_PREFIX" "$DIR_TO_SCAN/$FUNCTION_FILE"
     eval $BASHENV_VAR=\"$(echo "${!BASHENV_VAR} $FUNC_NAME")\"
   done

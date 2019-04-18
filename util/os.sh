@@ -60,6 +60,11 @@ sorted_key_list() {
   echo "$@" | tr ' ' '\n' | sort | uniq | tr '\n' ' '
 }
 
+function_slug()
+{
+  echo "$1" | sed s/[/]/_/g | sed s/.sh$//g
+}
+
 contains() {
   [[ $1 =~ (^|[[:space:]])"$2"($|[[:space:]]) ]]
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 function oneline_help_SHELL_PREFIX_describe() {
-  echo "MacGyver It! : Troubleshooting information"
+  echo "Describe information about this build env"
 }
 
 function help_SHELL_PREFIX_describe() {

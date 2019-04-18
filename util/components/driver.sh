@@ -1,46 +1,27 @@
 #!/bin/bash
 
 function run_component_func() {
-  FUNC=$1
-  local COMPONENT=""
-  local CMD=""
+  local FUNC=$1
   shift 1
-  if [ -z "$1$2" ]; then
-    COMPONENT="all"
-  else
-    COMPONENT=$(slugify $1)
-    shift 1
-  fi
+  local COMPONENT=$(slugify $1)
 
-  if [ "$COMPONENT" = "all" ]; then
-    for COMPONENT in $SHELL_PREFIX_COMPONENT_LIST; do
-      run_component_func $FUNC "$COMPONENT"
-    done
-  else
-    CMD=$FUNC"_environment_"$COMPONENT
-    if [ "help" = "$COMPONENT" ]; then
-      print_environment_help $FUNC
-    else
-      if [ "help" = "$1" ]; then
-        CMD=$CMD"_help"
-        $CMD "$@"
+  if help_on_empty_or_help $FUNC "$COMPONENT"; then
+    clear
+    local CMD=$FUNC"_environment_"$COMPONENT
+    if vet_environment_$COMPONENT; then
+    	if ! $CMD "$@"; then
+        echo "Failed to $CMD for $COMPONENT"
+        false
       else
-        if [ "--help" = "$1" ]; then
-          CMD=$CMD"_help"
-          $CMD "$@"
-        else
-          if vet_environment_$COMPONENT; then
-          	if ! $CMD "$@"; then
-              echo "Failed to $CMD for $COMPONENT"
-              false
-            fi
-          fi
-        fi
+        true
       fi
+    else
+      false
     fi
+  else
+    false
   fi
 }
-
 load_component() {
   local COMPONENT=$1
   local COMP_DIR="${VAR_PREFIX_COMPONENT_DIR}/$COMPONENT"
@@ -60,7 +41,7 @@ load_components() {
   local BASHENV_COMPLIST_VAR="${VAR_PREFIX}_COMPONENT_LIST"
   local BASHENV_COMPDIR_VAR="${VAR_PREFIX}_COMPONENT_DIR"
 
-  for COMPONENT in $(ls ${VAR_PREFIX_COMPONENT_DIR} ); do
+  for COMPONENT in $(ls ${VAR_PREFIX_COMPONENT_DIR} 2>/dev/null); do
     local COMP_DIR="${VAR_PREFIX_COMPONENT_DIR}/$COMPONENT"
     if [ -d "$COMP_DIR" ]; then
       load_component $COMPONENT
