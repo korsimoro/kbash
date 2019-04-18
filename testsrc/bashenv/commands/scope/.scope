@@ -1,0 +1,13 @@
+#!/bin/bash
+# test scope
+
+print_help() {
+printf "`cat << EOF
+${BLUE}kd docs <SUBCOMMAND> [OPTIONS]${NC}
+
+KIT Workbench Documentation Builder
+
+EOF
+`\n\n"
+kd_print_subcommand_help_summary docs
+}

@@ -1,0 +1,11 @@
+#!/bin/bash
+export           VAR_PREFIX_BASH=$VAR_PREFIX/bashenv
+export      VAR_PREFIX_BASH_UTIL=$VAR_PREFIX_BASH/util
+export   VAR_PREFIX_BASH_COMMAND=$VAR_PREFIX_BASH/commands
+export  VAR_PREFIX_BASH_FUNCTION=$VAR_PREFIX_BASH/functions
+export        VAR_PREFIX_SCRIPTS=$VAR_PREFIX_BASH/scripts
+export          VAR_PREFIX_FILES=$VAR_PREFIX_BASH/files
+export           VAR_PREFIX_LOGS=$VAR_PREFIX/build-logs
+export  VAR_PREFIX_FUNCTION_LIST=""
+export VAR_PREFIX_COMPONENT_LIST=""
+export  VAR_PREFIX_COMPONENT_DIR=$VAR_PREFIX_BASH/components
