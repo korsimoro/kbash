@@ -43,14 +43,9 @@ function run_component_func() {
 
 load_component() {
   local COMPONENT=$1
-  local BASHENV_COMPLIST_VAR="$VAR_PREFIX_COMPONENT_LIST"
-  local BASHENV_COMPDIR_VAR="$VAR_PREFIX_COMPONENT_DIR"
   local COMP_DIR="${VAR_PREFIX_COMPONENT_DIR}/$COMPONENT"
 
-  echo "LOADING COMPONENT $COMPONENT DIR=$COMP_DIR"
-
   for FUNCTION_FILE in $(find_dot_sh "$COMP_DIR"); do
-    echo k_bashenv_shell_integrate "$SHELL_PREFIX" "$VAR_PREFIX" "$COMP_DIR/$FUNCTION_FILE"
     k_bashenv_shell_integrate "SHELL_PREFIX" "VAR_PREFIX" "$COMP_DIR/$FUNCTION_FILE"
   done
 

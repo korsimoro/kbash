@@ -48,7 +48,6 @@ function run_SHELL_PREFIX_component_upsert() {
   local VP="VAR_${PFX}"
   local SP="SHELL_${PFX}"
   for FILE in $(find_dot_sh $KSETUP); do
-    echo "COPY $FILE to $TARGET/$FILE"
     cat $KSETUP/$FILE \
       | sed s/$VP/VAR_PREFIX/g \
       | sed s/$SP/SHELL_PREFIX/g \
@@ -57,8 +56,6 @@ function run_SHELL_PREFIX_component_upsert() {
       > $TARGET/$FILE
   done
 
-  echo "Loading Component $COMPONENT_NAME"
-  echo "B:VAR_PREFIX"
   load_component $COMPONENT_NAME
 }
 export -f run_SHELL_PREFIX_component_upsert help_SHELL_PREFIX_component_upsert oneline_help_SHELL_PREFIX_component_upsert
