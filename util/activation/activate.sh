@@ -66,7 +66,7 @@ k_bashenv_load_user_environment() {
 
   k_bashenv_load_functions_from_dir "$SHELL_PREFIX" "$VAR_PREFIX" "${!BASHENV_VAR}/functions"
 }
-
+export -f k_bashenv_shell_integrate k_bashenv_load_functions_from_dir k_bashenv_load_user_environment k_bashenv_load_system_environment
 
 # these require the SHELL_PREFIX and VAR_PREFIX be passed in as variables.  In
 # all other files, SHELL_PREFIX and VAR_PREFIX will be removed, and should be

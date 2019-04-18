@@ -38,6 +38,10 @@ function run_SHELL_PREFIX_component_upsert() {
     return
   fi
 
+  if [ -z "$VAR_PREFIX_COMPONENT_LIST" ]; then
+    k_bashenv_load_functions_from_dir "SHELL_PREFIX" "VAR_PREFIX" "$K_BASHENV_BASE/util/components/api"
+  fi
+
   if [ ! -d "$TARGET" ]; then
     mkdir -p $TARGET
     eval VAR_PREFIX_COMPONENT_LIST=\"$(sort_list "${VAR_PREFIX_COMPONENT_LIST} $COMPONENT_NAME")\"
@@ -56,6 +60,6 @@ function run_SHELL_PREFIX_component_upsert() {
       > $TARGET/$FILE
   done
 
-  load_component $COMPONENT_NAME
+  SHELL_PREFIX_load_component $COMPONENT_NAME
 }
 export -f run_SHELL_PREFIX_component_upsert help_SHELL_PREFIX_component_upsert oneline_help_SHELL_PREFIX_component_upsert
