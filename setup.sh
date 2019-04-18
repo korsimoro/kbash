@@ -3,6 +3,14 @@
 COMMAND=$1
 PREFIX=$2
 TBASE=$3
+
+if [ -z "$COMMAND" ] ||\
+    [ -z "$PREFIX" ] ||\
+    [ -z "$TBASE" ]; then
+  echo "usage: setup.sh SHELL_COMMAND VAR_PREFIX TARGET_DIR"
+  exit -1
+fi
+
 TARGET=$TBASE/bashenv
 KBASE=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 KSETUP=$KBASE/setup/base
