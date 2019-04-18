@@ -17,7 +17,7 @@ function run_SHELL_PREFIX_setup() {
     if SHELL_PREFIX_help_on_empty_or_help setup "$ENV"; then
       clear
 
-      if run_component_func setup $@; then
+      if SHELL_PREFIX_run_component_func setup $@; then
         echo "Setup"
       fi
     else
