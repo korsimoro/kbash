@@ -83,6 +83,7 @@ k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/cli/script.sh"
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/components/driver.sh"
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/components/helpsystem.sh"
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/components/parallel.sh"
+k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/python.sh"
 k_bashenv_load_system_environment "$1" "$2" "$4"
 k_bashenv_load_user_environment "$1" "$2" "$3"
 

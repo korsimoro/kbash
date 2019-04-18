@@ -1,12 +1,10 @@
 #!/bin/bash
 
-eval export ${PREFIX}_PYTHON3=$(command -v python3)
-eval export ${PREFIX}_VIRTUALENV=$(command -v virtualenv)
+export SYSTEM_PYTHON3=$(command -v python3)
+export SYSTEM_VIRTUALENV=$(command -v virtualenv)
 
 create_python3_env() {
   local TARGET=$1
-  local PYTHON3_VAR=${PREFIX}_PYTHON3
-  local VENV_VAR=${PREFIX}_VIRTUALENV
   if [ -d "$TARGET" ]; then
     echo "Virtual environment has already been set up"
     echo "Location: $TARGET"
@@ -15,22 +13,22 @@ create_python3_env() {
 
   echo "#--------------------- Creating Python Venv (start)"
   echo "#"
-  echo "python interpreter = ${!PYTHON3_VAR}"
+  echo "python interpreter = ${SYSTEM_PYTHON3}"
   echo "venv installation @ $TARGET"
-  ${!VENV_VAR} -p ${!PYTHON_VAR} $1 > /dev/null
+  ${SYSTEM_VIRTUALENV} -p ${SYSTEM_PYTHON3} $1 > /dev/null
   echo "#--------------------- Creating Python Venv (end)"
 }
 
 check_basic_python_ability() (
-local PYTHON3_VAR=${PREFIX}_PYTHON3
-local VENV_VAR=${PREFIX}_VIRTUALENV
-if [ "${!PYTHON3_VAR}" = "" ]; then
-        echo "Missing python3"
-        exit -1;
-fi
-if [ "${!VENV_VAR}" = "" ]; then
-        echo "Missing virtualenv"
-        exit -1;
-fi
-exit 0;
+  if [ "${SYSTEM_PYTHON3}" = "" ]; then
+          echo "Missing python3"
+          exit -1;
+  fi
+  if [ "${SYSTEM_VIRTUALENV}" = "" ]; then
+          echo "Missing virtualenv"
+          exit -1;
+  fi
+  exit 0;
 )
+
+export -f check_basic_python_ability create_python3_env
