@@ -1,14 +1,14 @@
 #!/bin/bash
 
-function run_component_func() {
+SHELL_PREFIX_run_component_func() {
   local FUNC=$1
   shift 1
   local COMPONENT=$(slugify $1)
 
-  if help_on_empty_or_help $FUNC "$COMPONENT"; then
+  if SHELL_PREFIX_help_on_empty_or_help $FUNC "$COMPONENT"; then
     clear
     local CMD=$FUNC"_environment_"$COMPONENT
-    if vet_environment_$COMPONENT; then
+    if SHELL_PREFIX_vet_environment_$COMPONENT; then
     	if ! $CMD "$@"; then
         echo "Failed to $CMD for $COMPONENT"
         false
@@ -22,7 +22,7 @@ function run_component_func() {
     false
   fi
 }
-load_component() {
+SHELL_PREFIX_load_component() {
   local COMPONENT=$1
   local COMP_DIR="${VAR_PREFIX_COMPONENT_DIR}/$COMPONENT"
 
@@ -34,7 +34,7 @@ load_component() {
   eval VAR_PREFIX_COMPONENT_LIST=\"$(sorted_key_list "${VAR_PREFIX_COMPONENT_LIST} $COMPONENT_NAME")\"
 }
 
-load_components() {
+SHELL_PREFIX_load_components() {
 
   k_bashenv_load_functions_from_dir "SHELL_PREFIX" "VAR_PREFIX" "$K_BASHENV_BASE/util/components/api"
 
@@ -44,7 +44,7 @@ load_components() {
   for COMPONENT in $(ls ${VAR_PREFIX_COMPONENT_DIR} 2>/dev/null); do
     local COMP_DIR="${VAR_PREFIX_COMPONENT_DIR}/$COMPONENT"
     if [ -d "$COMP_DIR" ]; then
-      load_component $COMPONENT
+      SHELL_PREFIX_load_component $COMPONENT
     fi
   done
 
@@ -63,3 +63,4 @@ load_components() {
 #
 #  done
 }
+export -f SHELL_PREFIX_load_components SHELL_PREFIX_load_component SHELL_PREFIX_run_component_func

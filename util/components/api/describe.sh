@@ -4,9 +4,10 @@ function oneline_help_SHELL_PREFIX_describe() {
 }
 
 function help_SHELL_PREFIX_describe() {
-  print_component_help describe
+  SHELL_PREFIX_print_component_help describe
 }
 
 function run_SHELL_PREFIX_describe() {
-  run_component_func describe $@
+  SHELL_PREFIX_run_component_func describe $@
 }
+export -f run_SHELL_PREFIX_describe help_SHELL_PREFIX_describe oneline_help_SHELL_PREFIX_describe

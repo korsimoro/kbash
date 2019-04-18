@@ -3,7 +3,7 @@
 
 function print_help() {
 printf "`cat << EOF
-${BLUE}kx tstfunc <repo>${NC}
+${BLUE}SHELL_PREFIX tstfunc <repo>${NC}
 
 This is a shell function, which changes the current working
 directory to $PREFIX/<repo>
@@ -14,5 +14,5 @@ EOF
 }
 
 function run() {
-  echo "function tstcmd"
+  echo "function tstcmd in SHELL_PREFIX"
 }

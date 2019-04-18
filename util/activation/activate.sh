@@ -87,6 +87,6 @@ k_bashenv_load_system_environment "$1" "$2" "$4"
 k_bashenv_load_user_environment "$1" "$2" "$3"
 
 # these are defined above
-load_components
+$1_load_components
 
 cd ${!2}

@@ -8,7 +8,7 @@ SHELL_PREFIX_execute() (
   shift 1
   . $FILE
   if [ "$HELP" = "help" ]; then
-    print_help
+    SHELL_PREFIX_print_help
   else
     run $@
   fi
@@ -22,7 +22,7 @@ SHELL_PREFIX_execute() (
 # - recurse if it looks like there is recursion
 # - report details if we bottom out
 #
-SHELL_PREFIX_locate_subcommand() {
+SHELL_PREFIX_locate_subcommand() (
   local BASE_DIR=$1
   local COMMAND=$2
   shift 2
@@ -30,27 +30,38 @@ SHELL_PREFIX_locate_subcommand() {
   local SCOPE=$BASE_DIR/.scope
   if [ -f "$SCOPE" ]; then
     . $SCOPE
-  fi
-  if [ -f "$FILE" ]; then
-    SHELL_PREFIX_execute $FILE $@
-  else
     if [ -z "$COMMAND" ] || [ "help" = "$COMMAND" ]; then
-      print_help
-    else
-      local DIR=$BASE_DIR/$COMMAND
-      if [ -d "$DIR" ]; then
-        SHELL_PREFIX_locate_subcommand $DIR $@
-      else
-        echo "Command not found : $@"
-        echo "   COMMAND = "$COMMAND
-        echo "   FUNC = run_SHELL_PREFIX_"$(slugify $COMMAND)
-        echo "   BASE_DIR = "$BASE_DIR
-        echo "   FILE = "$FILE
-        echo "   CLI = "$@
-      fi
+      echo "LOOKING FOR SCOPE HELP" $SCOPE
+      SHELL_PREFIX_print_scope_help
+      exit 0
     fi
   fi
-}
+
+  # if this a file, just run it
+  if [ -f "$FILE" ]; then
+    SHELL_PREFIX_execute $FILE $@
+    exit 0
+  fi
+
+  # fall through to look for commands
+  if [ -z "$COMMAND" ]; then
+    SHELL_PREFIX_print_scope_help
+    exit 0
+  else
+    local DIR=$BASE_DIR/$COMMAND
+    if [ -d "$DIR" ]; then
+      SHELL_PREFIX_locate_subcommand $DIR $@
+    else
+      echo "Command not found : $@"
+      echo "   COMMAND = "$COMMAND
+      echo "   FUNC = run_SHELL_PREFIX_"$(slugify $COMMAND)
+      echo "   BASE_DIR = "$BASE_DIR
+      echo "   FILE = "$FILE
+      echo "   SCOPE = "$SCOPE
+      echo "   CLI = "$@
+    fi
+  fi
+)
 
 
 # this is the entry point
@@ -74,4 +85,4 @@ SHELL_PREFIX() {
   fi
 }
 #export -f COMMAND SHELL_PREFIX_locate_subcommand SHELL_PREFIX_execute
-export -f SHELL_PREFIX
+export -f SHELL_PREFIX SHELL_PREFIX_locate_subcommand SHELL_PREFIX_execute

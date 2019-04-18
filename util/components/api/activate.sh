@@ -10,7 +10,7 @@ function help_SHELL_PREFIX_activate() {
 function run_SHELL_PREFIX_activate() {
   local ENV=$(slugify $1)
 
-  if run_component_func activate $@; then
+  if SHELL_PREFIX_run_component_func activate $@; then
 
     echo "Activating $ENV"
     echo "   - ran activate_environment_$ENV"
@@ -24,3 +24,4 @@ function run_SHELL_PREFIX_activate() {
   fi
 
 }
+export -f run_SHELL_PREFIX_activate help_SHELL_PREFIX_activate oneline_help_SHELL_PREFIX_activate

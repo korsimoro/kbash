@@ -64,6 +64,7 @@ function_slug()
 {
   echo "$1" | sed s/[/]/_/g | sed s/.sh$//g
 }
+export -f sort_list sorted_key_list function_slug
 
 contains() {
   [[ $1 =~ (^|[[:space:]])"$2"($|[[:space:]]) ]]

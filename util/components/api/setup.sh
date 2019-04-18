@@ -11,17 +11,18 @@ function run_SHELL_PREFIX_setup() {
 
   if [ "all" = "$ENV" ]; then
     for COMPONENT in $SHELL_PREFIX_COMPONENT_LIST ; do
-      run_component_func setup $COMPONENT
+      SHELL_PREFIX_run_component_func setup $COMPONENT
     done
   else
-    if help_on_empty_or_help setup "$ENV"; then
+    if SHELL_PREFIX_help_on_empty_or_help setup "$ENV"; then
       clear
 
       if run_component_func setup $@; then
         echo "Setup"
       fi
     else
-      echo "kd setup all to setup all"
+      echo "use SHELL_PREFIX setup all to setup all"
     fi
   fi
 }
+export -f run_SHELL_PREFIX_setup help_SHELL_PREFIX_setup oneline_help_SHELL_PREFIX_setup

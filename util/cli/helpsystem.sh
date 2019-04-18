@@ -24,7 +24,7 @@ SHELL_PREFIX_findkids() {
 
 # example usage print_kidlist_help COMMAND
 #
-function SHELL_PREFIX_print_subSHELL_PREFIX_help_summary() {
+function SHELL_PREFIX_print_subcommand_help_summary() {
   local WIDTH=18
   local BASE="$VAR_PREFIX_BASH_COMMAND"/$1
   local KIDS=$(ls -1 $BASE/*.sh  2>/dev/null | xargs -n 1 basename | sed s/.sh$//g | sort)
@@ -124,7 +124,7 @@ EOF
 SHELL_PREFIX_print_function_help_summary
 printf "\n"
 
-SHELL_PREFIX_print_subSHELL_PREFIX_help_summary .
+SHELL_PREFIX_print_subcommand_help_summary .
 printf "\n"
 
 printf "Use ${BLUE}COMMAND [cmd] help${NC} for more information.\n"
@@ -134,4 +134,4 @@ printf "Use ${BLUE}COMMAND [cmd] help${NC} for more information.\n"
 run_SHELL_PREFIX_help() (
   SHELL_PREFIX_print_help
 )
-export -f run_SHELL_PREFIX_help SHELL_PREFIX_print_help SHELL_PREFIX_print_subSHELL_PREFIX_help_summary
+export -f run_SHELL_PREFIX_help SHELL_PREFIX_print_help SHELL_PREFIX_print_function_help_summary SHELL_PREFIX_print_subcommand_help_summary
