@@ -27,10 +27,13 @@ SHELL_PREFIX_findkids() {
 function SHELL_PREFIX_print_subcommand_help_summary() {
   local WIDTH=18
   local BASE="$VAR_PREFIX_BASH_COMMAND"/$1
+  if [ ! -d "$BASE" ]; then
+    BASE=$VAR_PREFIX_COMPONENT_DIR/$1/commands
+  fi
   local KIDS=$(ls -1 $BASE/*.sh  2>/dev/null | xargs -n 1 basename | sed s/.sh$//g | sort)
-  local SCOPES=$(ls -1 $BASE/*/.scope 2>/dev/null)
+  local SCOPES=$(ls -1 $BASE/*/.scope.sh 2>/dev/null)
   if [ ! -z "$SCOPES" ]; then
-    SCOPES=$(ls -1 $BASE/*/.scope | xargs -n 1 dirname | xargs -n 1 basename | sort)
+    SCOPES=$(ls -1 $BASE/*/.scope.sh | xargs -n 1 dirname | xargs -n 1 basename | sort)
   fi
 
   if [ ! -z "$KIDS" ]; then
@@ -50,7 +53,7 @@ function SHELL_PREFIX_print_subcommand_help_summary() {
    if [ ! -z "$SCOPES" ]; then
      printf "Command Sets\n"
      for SCOPE in $SCOPES; do
-        local SCRIPT_FILE="$BASE/$SCOPE/.scope"
+        local SCRIPT_FILE="$BASE/$SCOPE/.scope.sh"
         if [ -f "$SCRIPT_FILE" ]; then
           local ONELINER=$(head -n 2 "$SCRIPT_FILE" | tail -n 1 | colrm 1 2)
           printf "${GREEN}%-${WIDTH}s${NC} %s\n" " $SCOPE" "$ONELINER"

@@ -21,4 +21,6 @@ ACTIVATE_KY=$PWD/testdir/ky/bashenv/activate.sh
 
 . $ACTIVATE_KX
 . $ACTIVATE_KY
+ky component-upsert comp0 C0
+
 exec bash

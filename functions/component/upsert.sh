@@ -52,6 +52,7 @@ function run_SHELL_PREFIX_component_upsert() {
   local VP="VAR_${PFX}"
   local SP="SHELL_${PFX}"
   for FILE in $(find_dot_sh $KSETUP); do
+    echo "Setting up $TARGET/$FILE"
     cat $KSETUP/$FILE \
       | sed s/$VP/VAR_PREFIX/g \
       | sed s/$SP/SHELL_PREFIX/g \

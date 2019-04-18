@@ -18,24 +18,27 @@ SHELL_PREFIX_execute() {
   fi
 }
 
-#
-# given a command of the form COMMAND <subcommand> .... look for a
-# - command file, to be executed as a subshell
-# - a function to be executed in the current shell
-# - look for 'help' conditions
-# - recurse if it looks like there is recursion
-# - report details if we bottom out
-#
+SHELL_PREFIX_locate_component_command() (
+  local COMPONENT=$1
+  shift 1
+  local DIR=$VAR_PREFIX_COMPONENT_DIR/$COMPONENT/commands
+  SHELL_PREFIX_locate_subcommand $DIR $@
+)
+
 SHELL_PREFIX_locate_subcommand() (
   local BASE_DIR=$1
   local COMMAND=$2
   shift 2
   local FILE=$BASE_DIR/$COMMAND.sh
-  local SCOPE=$BASE_DIR/.scope
+  local SCOPE=$BASE_DIR/.scope.sh
   if [ -f "$SCOPE" ]; then
     . $SCOPE
-    if [ -z "$COMMAND" ] || [ "help" = "$COMMAND" ]; then
-      echo "LOOKING FOR SCOPE HELP" $SCOPE
+    if [ -z "$COMMAND" ] ||\
+       [ "$COMMAND" == "help" ] ||\
+       [ "$COMMAND" == "--help" ] ||\
+       [ "$COMMAND" == "-help" ] ||\
+       [ "$COMMAND" == "?" ] ||\
+       [ "$COMMAND" == "-h" ]; then
       SHELL_PREFIX_print_scope_help
       exit 0
     fi
@@ -57,17 +60,21 @@ SHELL_PREFIX_locate_subcommand() (
     SHELL_PREFIX_print_scope_help
     exit 0
   else
-    local DIR=$BASE_DIR/$COMMAND
-    if [ -d "$DIR" ]; then
-      SHELL_PREFIX_locate_subcommand $DIR $@
+    local COMMAND_DIR=$BASE_DIR/$COMMAND
+    if [ -d "$COMMAND_DIR" ]; then
+      SHELL_PREFIX_locate_subcommand $COMMAND_DIR $@
     else
-      echo "Command not found : $@"
-      echo "   COMMAND = "$COMMAND
-      echo "   FUNC = run_SHELL_PREFIX_"$(slugify $COMMAND)
-      echo "   BASE_DIR = "$BASE_DIR
-      echo "   FILE = "$FILE
-      echo "   SCOPE = "$SCOPE
-      echo "   CLI = "$@
+      if SHELL_PREFIX_locate_component_command $COMMAND $@; then
+        exit $?
+      else
+        echo "Command not found : $@"
+        echo "   COMMAND = "$COMMAND
+        echo "   FUNC = run_SHELL_PREFIX_"$(slugify $COMMAND)
+        echo "   BASE_DIR = "$BASE_DIR
+        echo "   FILE = "$FILE
+        echo "   SCOPE = "$SCOPE
+        echo "   CLI = "$@
+      fi
     fi
   fi
 )
@@ -98,4 +105,4 @@ SHELL_PREFIX() {
   fi
 }
 #export -f COMMAND SHELL_PREFIX_locate_subcommand SHELL_PREFIX_execute
-export -f SHELL_PREFIX SHELL_PREFIX_locate_subcommand SHELL_PREFIX_execute
+export -f SHELL_PREFIX SHELL_PREFIX_locate_subcommand SHELL_PREFIX_execute SHELL_PREFIX_locate_component_command
