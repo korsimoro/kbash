@@ -31,37 +31,55 @@ function SHELL_PREFIX_print_subcommand_help_summary() {
     BASE=$VAR_PREFIX_COMPONENT_DIR/$1/commands
   fi
   local KIDS=$(ls -1 $BASE/*.sh  2>/dev/null | xargs -n 1 basename | sed s/.sh$//g | sort)
-  local SCOPES=$(ls -1 $BASE/*/.scope.sh 2>/dev/null)
-  if [ ! -z "$SCOPES" ]; then
-    SCOPES=$(ls -1 $BASE/*/.scope.sh | xargs -n 1 dirname | xargs -n 1 basename | sort)
-  fi
 
   if [ ! -z "$KIDS" ]; then
     printf "Commands\n"
     for KID in $KIDS; do
-       local SCRIPT_FILE="$BASE/$KID.sh"
-       if [ -f "$SCRIPT_FILE" ]; then
-         local ONELINER=$(head -n 2 "$SCRIPT_FILE" | tail -n 1 | colrm 1 2)
-         printf "${GREEN}%-${WIDTH}s${NC} %s\n" " $KID" "$ONELINER"
-       else
-         echo "-no help available-"$SCRIPT_FILE
-       fi
-     done
-     printf "\n"
-   fi
+      local SCRIPT_FILE="$BASE/$KID.sh"
+      if [ -f "$SCRIPT_FILE" ]; then
+        local ONELINER=$(head -n 2 "$SCRIPT_FILE" | tail -n 1 | colrm 1 2)
+        printf "${GREEN}%-${WIDTH}s${NC} %s\n" " $KID" "$ONELINER"
+      else
+        echo "-no help available-"$SCRIPT_FILE
+      fi
+    done
+    printf "\n"
+  fi
 
-   if [ ! -z "$SCOPES" ]; then
-     printf "Command Sets\n"
-     for SCOPE in $SCOPES; do
-        local SCRIPT_FILE="$BASE/$SCOPE/.scope.sh"
-        if [ -f "$SCRIPT_FILE" ]; then
-          local ONELINER=$(head -n 2 "$SCRIPT_FILE" | tail -n 1 | colrm 1 2)
-          printf "${GREEN}%-${WIDTH}s${NC} %s\n" " $SCOPE" "$ONELINER"
-        else
-          echo "-no scope help available-"$SCRIPT_FILE
-        fi
-      done
-    fi
+ local SCOPES=$(ls -1 $BASE/*/.scope.sh 2>/dev/null)
+ if [ ! -z "$SCOPES" ]; then
+   SCOPES=$(ls -1 $BASE/*/.scope.sh | xargs -n 1 dirname | xargs -n 1 basename | sort)
+ fi
+
+ if [ ! -z "$SCOPES" ]; then
+   printf "Command Sets\n"
+   for SCOPE in $SCOPES; do
+      local SCRIPT_FILE="$BASE/$SCOPE/.scope.sh"
+      if [ -f "$SCRIPT_FILE" ]; then
+        local ONELINER=$(head -n 2 "$SCRIPT_FILE" | tail -n 1 | colrm 1 2)
+        printf "${GREEN}%-${WIDTH}s${NC} %s\n" " $SCOPE" "$ONELINER"
+      else
+        echo "-no scope help available-"$SCRIPT_FILE
+      fi
+    done
+  fi
+}
+
+function SHELL_PREFIX_print_component_help_summary() {
+  local WIDTH=18
+  if [ ! -z "$VAR_PREFIX_COMPONENT_LIST" ]; then
+    printf "Component Commands\n"
+    for COMPONENT in $VAR_PREFIX_COMPONENT_LIST; do
+      local BASE=$VAR_PREFIX_COMPONENT_DIR/$COMPONENT/commands
+      local SCRIPT_FILE="$BASE/.scope.sh"
+      if [ -f "$SCRIPT_FILE" ]; then
+        local ONELINER=$(head -n 2 "$SCRIPT_FILE" | tail -n 1 | colrm 1 2)
+        printf "${GREEN}%-${WIDTH}s${NC} %s\n" " $COMPONENT" "$ONELINER"
+      else
+        echo "-no scope help available- : file="$SCRIPT_FILE
+      fi
+    done
+  fi
 }
 
 SHELL_PREFIX_print_function_help_summary() {
@@ -128,6 +146,9 @@ SHELL_PREFIX_print_function_help_summary
 printf "\n"
 
 SHELL_PREFIX_print_subcommand_help_summary .
+printf "\n"
+
+SHELL_PREFIX_print_component_help_summary
 printf "\n"
 
 printf "Use ${BLUE}COMMAND [cmd] help${NC} for more information.\n"
