@@ -7,8 +7,8 @@ SHELL_PREFIX_run_component_func() {
 
   if SHELL_PREFIX_help_on_empty_or_help $FUNC "$COMPONENT"; then
     clear
-    local CMD=$FUNC"_environment_"$COMPONENT
-    if SHELL_PREFIX_vet_environment_$COMPONENT; then
+    local CMD=""$FUNC"_environment_SHELL_PREFIX_"$COMPONENT
+    if vet_environment_SHELL_PREFIX_$COMPONENT; then
     	if ! $CMD "$@"; then
         echo "Failed to $CMD for $COMPONENT"
         false

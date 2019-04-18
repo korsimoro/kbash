@@ -1,5 +1,5 @@
 #!/bin/bash
-setup_environment_COMPONENT_NAME_help() {
+setup_environment_SHELL_PREFIX_COMPONENT_NAME_help() {
 printf "`cat << EOF
 ${BLUE}SHELL_PREFIX setup COMPONENT_NAME${NC}
 
@@ -8,6 +8,6 @@ EOF
 }
 
 
-setup_environment_COMPONENT_NAME() {
+setup_environment_SHELL_PREFIX_COMPONENT_NAME() {
   echo "Component[COMPONENT_NAME]:setup"
 }
