@@ -1,10 +1,10 @@
 #!/bin/bash
 
-function oneline_help_SHELL_PREFIX_component_upsert() {
+function oneline_help_SHELL_PREFIX_component_new() {
   echo "cd home, or into $VAR_PREFIX/[C]."
 }
 
-function help_SHELL_PREFIX_component_upsert() {
+function help_SHELL_PREFIX_component_new() {
 printf "`cat << EOF
 ${BLUE}SHELL_PREFIX cd <repo>${NC}
 
@@ -16,7 +16,7 @@ EOF
 `\n\n"
 }
 
-function run_SHELL_PREFIX_component_upsert() {
+function run_SHELL_PREFIX_component_new() {
   local COMPONENT_NAME=$1
   if [ -z "$COMPONENT_NAME" ]; then
     echo "missing component-name"
@@ -38,6 +38,11 @@ function run_SHELL_PREFIX_component_upsert() {
     return
   fi
 
+  if [ -d "$TARGET" ]; then
+    echo "$COMPONENT_NAME already set up"
+    return
+  fi
+
   if [ -z "$VAR_PREFIX_COMPONENT_LIST" ]; then
     k_bashenv_load_functions_from_dir "SHELL_PREFIX" "VAR_PREFIX" "$K_BASHENV_BASE/util/components/api"
   fi
@@ -52,23 +57,15 @@ function run_SHELL_PREFIX_component_upsert() {
   local VP="VAR_${PFX}"
   local SP="SHELL_${PFX}"
   for FILE in $(find_dot_sh $KSETUP); do
-    local SHOULD_COPY=true
-
-    if [[ $FILE == "commands/*" ]] && [[ -f "$FILE" ]]; then
-      SHOULD_COPY=false
-    fi
-
-    if $SHOULD_COPY; then
-      echo "Setting up $TARGET/$FILE"
-      cat $KSETUP/$FILE \
+    echo "Setting up $TARGET/$FILE"
+    cat $KSETUP/$FILE \
         | sed s/$VP/VAR_PREFIX/g \
         | sed s/$SP/SHELL_PREFIX/g \
         | sed s/COMPONENT_NAME/$COMPONENT_NAME/g \
         | sed s/COMPONENT_VAR_PREFIX/$COMPONENT_VAR_PREFIX/g \
         > $TARGET/$FILE
-      fi
   done
 
   SHELL_PREFIX_load_component $COMPONENT_NAME
 }
-export -f run_SHELL_PREFIX_component_upsert help_SHELL_PREFIX_component_upsert oneline_help_SHELL_PREFIX_component_upsert
+export -f run_SHELL_PREFIX_component_new help_SHELL_PREFIX_component_new oneline_help_SHELL_PREFIX_component_new
