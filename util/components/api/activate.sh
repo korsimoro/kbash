@@ -12,7 +12,7 @@ function run_SHELL_PREFIX_activate() {
 
   if SHELL_PREFIX_run_component_func activate $@; then
 
-    echo "Activating $ENV"
+    echo "Activated $ENV"
     echo "   - ran activate_environment_$ENV"
     echo "   - setting VAR_PREFIX_ACTIVE_DEVENV"
     VAR_PREFIX_ACTIVE_DEVENV=$ENV
@@ -20,7 +20,7 @@ function run_SHELL_PREFIX_activate() {
     SHELL_PREFIX_reprompt
     echo "   - cd into environment home"
     SHELL_PREFIX cd $ENV
-    echo "   - $PWD"
+    describe_environment_SHELL_PREFIX_$ENV
   fi
 
 }

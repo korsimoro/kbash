@@ -22,17 +22,6 @@ prepare_for_long_running_kids() {
   trap 'exit $?' EXIT
 }
 
-function report_vars() {
-  local WIDTH=15
-  MESSAGE=$1
-  shift 1
-
-  echo $MESSAGE
-  for x in "$@"; do
-    printf "${GREEN}%-${WIDTH}s${NC} %s\n" " $x" "$(eval "echo \"\$$x\"")"
-  done;
-}
-
 
 is_being_sourced() {
 	echo "${BASH_SOURCE[0]}"
@@ -53,6 +42,14 @@ pathof() {
   fi
 }
 
+ensure_empty_dir() {
+  DIR=$1
+  if [ -f "$DIR" ] || [ -d "$DIR" ]; then
+    rm -rf $DIR
+  fi
+  mkdir -p $DIR
+  echo $DIR
+}
 sort_list() {
   echo "$@" | tr ' ' '\n' | sort | tr '\n' ' '
 }
@@ -101,11 +98,51 @@ pathrm() {
     PATH="$(echo $PATH | sed -e "s;\(^\|:\)${1%/}\(:\|\$\);\1\2;g" -e 's;^:\|:$;;g' -e 's;::;:;g')"
 }
 
+
+export -f pushdir popdir is_osx is_windows contains pathadd pathrm
+
+
 error() {
-  printf "${RED}%s${NC}\n" "$@"
+  report_error "$@"
   exit -1
 }
-export -f pushdir popdir is_osx is_windows contains pathadd pathrm error
+report_error() {
+  printf "${RED}%s${NC}\n" "$@"
+  false
+}
+report_heading() {
+  printf "${BOLD}%s${NC}\n" "$@"
+  false
+}
+report_warning() {
+  printf "${YELLOW}%s${NC}\n" "$@"
+  false
+}
+report_progress() {
+  printf "${BLUE}%s${NC}\n" "$@"
+  false
+}
+report_ok() {
+  printf "${GREEN}%s${NC}\n" "$@"
+  false
+}
+report_subheading() {
+  printf "${BLUE}%s${NC}\n" "$@"
+  false
+}
+function report_vars() {
+  local WIDTH=15
+  MESSAGE=$1
+  shift 1
+
+  report_subheading $MESSAGE
+  for x in "$@"; do
+    printf "${GREEN}%-${WIDTH}s${NC} %s\n" " $x" "$(eval "echo \"\$$x\"")"
+  done;
+}
+
+
+export -f  error report_error report_heading report_subheading report_ok report_warning report_progress
 
 
 

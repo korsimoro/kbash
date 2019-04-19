@@ -6,7 +6,7 @@
 # looks for any scripts of the form <base>-<subcommand>, but
 # excludes <base>-<subcommand>-<other>, so it returns only the
 # immediate subcommands
-SHELL_PREFIX_findkids() {
+UNUSED_SHELL_PREFIX_findkids() {
   pushdir "$VAR_PREFIX_BASH_COMMAND"
   echo $(ls -1 *.sh )
   local BASE=$1
@@ -30,7 +30,11 @@ function SHELL_PREFIX_print_subcommand_help_summary() {
   if [ ! -d "$BASE" ]; then
     BASE=$VAR_PREFIX_COMPONENT_DIR/$1/commands
   fi
-  local KIDS=$(ls -1 $BASE/*.sh  2>/dev/null | xargs -n 1 basename | sed s/.sh$//g | sort)
+
+  local KIDS=$(ls -1 $BASE/*.sh  2>/dev/null)
+  if [ ! -z "$KIDS" ]; then
+    KIDS=$(echo $KIDS | xargs -n 1 basename | sed s/.sh$//g | sort)
+  fi
 
   if [ ! -z "$KIDS" ]; then
     printf "Commands\n"
@@ -48,7 +52,7 @@ function SHELL_PREFIX_print_subcommand_help_summary() {
 
  local SCOPES=$(ls -1 $BASE/*/.scope.sh 2>/dev/null)
  if [ ! -z "$SCOPES" ]; then
-   SCOPES=$(ls -1 $BASE/*/.scope.sh | xargs -n 1 dirname | xargs -n 1 basename | sort)
+   SCOPES=$(ls -1 $BASE/*/.scope.sh | xargs -n 1 dirname | xargs -n 1 basename || true | sort)
  fi
 
  if [ ! -z "$SCOPES" ]; then

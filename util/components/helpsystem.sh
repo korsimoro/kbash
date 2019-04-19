@@ -15,7 +15,7 @@ ${BLUE}SHELL_PREFIX $FUNC [COMPONENT] ...${NC}
 EOF
 `\n\n"
   for COMPONENT in $VAR_PREFIX_COMPONENT_LIST; do
-    local HELP_FUNC="oneline_description_of_$COMPONENT"
+    local HELP_FUNC="oneline_description_of_SHELL_PREFIX_$COMPONENT"
     echo "   $COMPONENT  $($HELP_FUNC )"
   done
 }

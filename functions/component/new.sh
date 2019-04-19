@@ -6,11 +6,8 @@ function oneline_help_SHELL_PREFIX_component_new() {
 
 function help_SHELL_PREFIX_component_new() {
 printf "`cat << EOF
-${BLUE}SHELL_PREFIX cd <repo>${NC}
+${BLUE}SHELL_PREFIX component-new [component-name] [component-var-prefix]${NC}
 
-This is a shell function, which changes the current working
-directory to $PREFIX/<repo>
-and if no <repo> is provided this is equivalent to ${BLUE}SHELL_PREFIX home${NC}.
 
 EOF
 `\n\n"
@@ -19,13 +16,15 @@ EOF
 function run_SHELL_PREFIX_component_new() {
   local COMPONENT_NAME=$1
   if [ -z "$COMPONENT_NAME" ]; then
-    echo "missing component-name"
+    report_warning "missing component-name"
+    help_SHELL_PREFIX_component_new
     return
   fi
 
   local COMPONENT_VAR_PREFIX=$2
   if [ -z "$COMPONENT_VAR_PREFIX" ]; then
     echo "missing component-var-prefix"
+    help_SHELL_PREFIX_component_new
     return
   fi
 
@@ -34,22 +33,24 @@ function run_SHELL_PREFIX_component_new() {
   local KSETUP=$KBASE/setup/component
 
   if [ -f "$TARGET" ]; then
-    echo "$TARGET already exists and is a file"
+    report_error "$TARGET already exists and is a file"
     return
   fi
 
   if [ -d "$TARGET" ]; then
-    echo "$COMPONENT_NAME already set up"
+    report_warning "$COMPONENT_NAME already set up"
     return
   fi
 
   if [ -z "$VAR_PREFIX_COMPONENT_LIST" ]; then
+    report_progress "Loading API functions"
     k_bashenv_load_functions_from_dir "SHELL_PREFIX" "VAR_PREFIX" "$K_BASHENV_BASE/util/components/api"
   fi
 
   if [ ! -d "$TARGET" ]; then
     mkdir -p $TARGET
     eval VAR_PREFIX_COMPONENT_LIST=\"$(sort_list "${VAR_PREFIX_COMPONENT_LIST} $COMPONENT_NAME")\"
+    report_progress "Created $COMPONENT_NAME at $TARGET"
   fi
 
   cp -r $KSETUP/* $TARGET

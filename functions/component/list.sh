@@ -12,15 +12,14 @@ List all available components
 
 EOF
 `\n\n"
-  for COMPONENT in $VAR_PREFIX_COMPONENT_LIST; do
-    local HELP_FUNC="oneline_description_of_$COMPONENT"
-    echo "   $COMPONENT  $($HELP_FUNC )"
-  done
+  run_SHELL_PREFIX_component_list
 }
 
 function run_SHELL_PREFIX_component_list() {
+  local WIDTH=15
   for COMPONENT in $VAR_PREFIX_COMPONENT_LIST; do
-    echo $COMPONENT
+    local HELP_FUNC="oneline_description_of_SHELL_PREFIX_$COMPONENT"
+    printf "${GREEN}%-${WIDTH}s${NC} %s\n" "$COMPONENT" "$($HELP_FUNC )"
   done
 }
 export -f run_SHELL_PREFIX_component_list help_SHELL_PREFIX_component_list oneline_help_SHELL_PREFIX_component_list

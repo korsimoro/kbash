@@ -1,6 +1,6 @@
 #!/bin/bash
 function oneline_help_SHELL_PREFIX_setup() {
-  echo "Initialize a setup environment"
+  echo "Initialize a development environment"
 }
 function help_SHELL_PREFIX_setup() {
   print_component_help setup
