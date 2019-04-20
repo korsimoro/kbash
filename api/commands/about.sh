@@ -1,27 +1,5 @@
 #!/bin/bash
 
-
-# --------------------------------------------------------- Help Support
-# example: findkids COMMAND-build
-# looks for any scripts of the form <base>-<subcommand>, but
-# excludes <base>-<subcommand>-<other>, so it returns only the
-# immediate subcommands
-UNUSED_SHELL_PREFIX_findkids() {
-  pushdir "$VAR_PREFIX_BASH_COMMAND"
-  echo $(ls -1 *.sh )
-  local BASE=$1
-  local VAR_PREFIX="$BASE-"
-  local GLOB="*.sh"
-  echo "GLOB:$GLOB"
-  for FOO in $GLOB; do
-   if [ ! "$FOO" = "$GLOB" ]; then
-     echo ${FOO#$VAR_PREFIX}
-   fi
-  done
-  popdir
-}
-
-
 # example usage print_kidlist_help COMMAND
 #
 function SHELL_PREFIX_print_subcommand_help_summary() {

@@ -1,15 +1,19 @@
 #!/bin/bash
 shopt -s extglob
 
-# use color codes inside script
-export RED='\033[0;31m'
-export GREEN='\033[0;32m'
-export BLUE='\033[0;34m'
-export YELLOW='\033[0;33m'
-export NC='\033[0m' # No Color
-export BOLD=$(tput bold)
-export NORMAL='\033[22m'
-
+# identify a string as a help option
+is_help_option() {
+  local COMMAND=$1
+   [ "$COMMAND" == "help" ] ||\
+   [ "$COMMAND" == "--help" ] ||\
+   [ "$COMMAND" == "-help" ] ||\
+   [ "$COMMAND" == "?" ] ||\
+   [ "$COMMAND" == "-h" ]
+}
+is_help_option_or_empty() {
+  local COMMAND=$1
+  [ -z "$COMMAND" ] || is_help_option "$COMMAND"
+}
 
 # https://stackoverflow.com/questions/360201/how-do-i-kill-background-processes-jobs-when-my-shell-script-exits
 # careful - this will also kill your tree when you encounter a command with an
@@ -42,30 +46,20 @@ pathof() {
   fi
 }
 
-ensure_empty_dir() {
-  DIR=$1
-  if [ -f "$DIR" ] || [ -d "$DIR" ]; then
-    rm -rf $DIR
-  fi
-  mkdir -p $DIR
-  echo $DIR
-}
 sort_list() {
   echo "$@" | tr ' ' '\n' | sort | tr '\n' ' '
 }
 sorted_key_list() {
   echo "$@" | tr ' ' '\n' | sort | uniq | tr '\n' ' '
 }
-
-function_slug()
-{
-  echo "$1" | sed s/[/]/_/g | sed s/.sh$//g
-}
-export -f sort_list sorted_key_list function_slug
-
 contains() {
-  [[ $1 =~ (^|[[:space:]])"$2"($|[[:space:]]) ]]
+  local LIST=$1
+  local TERM=$2
+  [[ $LIST =~ (^|[[:space:]])"$TERM"($|[[:space:]]) ]]
 }
+
+export -f sort_list sorted_key_list
+
 
 is_windows() {
   [ ! -z "$(uname -a | grep Microsoft)" ]
@@ -80,6 +74,14 @@ pushdir() {
 }
 popdir() {
   popd >/dev/null
+}
+ensure_empty_dir() {
+  DIR=$1
+  if [ -f "$DIR" ] || [ -d "$DIR" ]; then
+    rm -rf $DIR
+  fi
+  mkdir -p $DIR
+  echo $DIR
 }
 
 # https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path
@@ -102,47 +104,6 @@ pathrm() {
 export -f pushdir popdir is_osx is_windows contains pathadd pathrm
 
 
-error() {
-  report_error "$@"
-  exit -1
-}
-report_error() {
-  printf "${RED}%s${NC}\n" "$@"
-  false
-}
-report_heading() {
-  printf "${BOLD}%s${NC}\n" "$@"
-  false
-}
-report_warning() {
-  printf "${YELLOW}%s${NC}\n" "$@"
-  false
-}
-report_progress() {
-  printf "${BLUE}%s${NC}\n" "$@"
-  false
-}
-report_ok() {
-  printf "${GREEN}%s${NC}\n" "$@"
-  false
-}
-report_subheading() {
-  printf "${BLUE}%s${NC}\n" "$@"
-  false
-}
-function report_vars() {
-  local WIDTH=15
-  MESSAGE=$1
-  shift 1
-
-  report_subheading $MESSAGE
-  for x in "$@"; do
-    printf "${GREEN}%-${WIDTH}s${NC} %s\n" " $x" "$(eval "echo \"\$$x\"")"
-  done;
-}
-
-
-export -f  error report_error report_heading report_subheading report_ok report_warning report_progress
 
 
 
@@ -159,6 +120,11 @@ slugify() {
   fi
 }
 export -f slugify
+function_slug()
+{
+  echo "$1" | sed 's/[/]/_/g' | sed 's/.sh$//g'
+}
+export -f function_slug
 
 find_dot_sh() (
 

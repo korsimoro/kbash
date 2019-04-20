@@ -74,10 +74,12 @@ export -f k_bashenv_shell_integrate k_bashenv_load_functions_from_dir k_bashenv_
 # VAR_PREFIX is also the name of the base dir - so $VAR_PREFIX is the base directory
 # of the SHELL_PREFIX scope
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/os.sh"
+k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/output.sh"
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/activation/state.sh"
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/activation/count.sh"
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/activation/prompt.sh"
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/cli/helpsystem.sh"
+k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/cli/commands.sh"
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/cli/entrypoint.sh"
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/cli/script.sh"
 k_bashenv_shell_integrate "$1" "$2" "$K_BASHENV_BASE/util/components/driver.sh"

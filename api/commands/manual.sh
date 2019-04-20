@@ -46,12 +46,10 @@ run() {
   export NORMAL=''
   # if we don't do this, then print_help above is called for the
   # first invocation of 'kd help'
-  . $KITWB_BASH_DIR/kd-help.sh
-  DEPTH=0
+
   TOP_LEVEL_FUNCTIONS=$FUNCS
   printf "# Table of contents\n"
   dump_manual kd | $KITWB_SCRIPTS_DIR/gh-md-toc -
   printf "# KD Help\n"
   DEPTH=0
-  dump_manual kd
 }
