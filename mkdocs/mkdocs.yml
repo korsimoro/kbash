@@ -1,0 +1,15 @@
+site_name: KBash
+site_dir: ../docs
+docs_dir: ./in
+nav:
+  - Home: index.md
+  - Operations: ops.md
+  - Layout: layout.md
+  - API:
+    - Intro: api/intro.md
+    - Commands: api/commands.md
+    - Functions: api/functions.md
+    - Util: api/util.md
+  - Examples:
+     - Output: example-outputs.md
+     - Manual: example-manual.md
