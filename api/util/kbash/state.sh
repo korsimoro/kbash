@@ -1,6 +1,4 @@
 #!/bin/bash
-# These variables control the VAR_PREFIX scope.
-export K_BASHENV_BASE=$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )
 
 # define bash environment
 export           VAR_PREFIX_BASH=$VAR_PREFIX/bashenv

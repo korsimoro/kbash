@@ -1,6 +1,6 @@
 #!/bin/bash
 
-k_bashenv_shell_integrate() {
+kbash_shell_integrate() {
   local SHELL_PREFIX=$1
   local VAR_PREFIX=$2
   local INPUT=$3

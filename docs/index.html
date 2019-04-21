@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>KBash</title>
+        <link href="css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href=".">KBash</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#quickstart">Quickstart</a></li>
+        <li class="main "><a href="#concept-and-purpose">Concept and Purpose</a></li>
+            <li><a href="#when-to-use">When to use</a></li>
+            <li><a href="#drivers">Drivers</a></li>
+        <li class="main "><a href="#theory-of-operation">Theory of Operation</a></li>
+            <li><a href="#project-specific-activation">$PROJECT specific activation</a></li>
+        <li class="main "><a href="#directory-layout">Directory Layout</a></li>
+            <li><a href="#api">api</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="quickstart">Quickstart</h1>
+<pre><code>git clone git@github.com:korsimoro/k-bashenv ~/.k-bashenv
+</code></pre>
+
+<h1 id="concept-and-purpose">Concept and Purpose</h1>
+<p>The <code>kbash</code> environment may be useful when rapidly investigating
+and hacking around multiple projects across diverse technologies.  In
+such a context, it is often useful to write a one-off shell script that
+you expect to use once-or twice, but often wind up using for a while.</p>
+<p>The <code>kbash</code> environment is a Convention-based toolkit which organizes
+these one-off bits of knowledge, until such time as they can be integrated
+into the mainstream build environment (at which time the <code>kbash</code>
+environment can be pruned.)</p>
+<p>The <code>kbash</code> environment aims to be the grease-in-the-gears, where
+accumulation of project-specific structure and knowledge should be
+continuously migrated out of the <code>kbash</code> environment.  <code>kbash</code>
+should be a value-added utility, not a solution in itself.</p>
+<h2 id="when-to-use">When to use</h2>
+<ul>
+<li><em>project-discovery</em></li>
+</ul>
+<p>For mature projects, the roll of <code>kbash</code> should be reduced substantially.
+  The <code>kbash</code> environment exists to support exploration, and the documented
+  accretion of devops knowledge in the form of <code>bash</code> snippets, operating
+  against a rich field of structure, utilities, and variables.</p>
+<ul>
+<li><em>multi-project</em></li>
+</ul>
+<p>If a project consists of a blending of multiple sub-projects, and the
+  investigation of an complex build.  Once the complex build is well
+  understood, the knowledge accumulated in <code>kbash</code> scripts should be
+  migrated into the more mature build systems of the sub-projects.</p>
+<h2 id="drivers">Drivers</h2>
+<ul>
+<li><em>environment-coupling</em></li>
+</ul>
+<p>Rather than being confined to operations on the filesystem, <code>kbash</code>
+  allows systematic use of the shell environment.</p>
+<p>This is similar to
+  - <em>python venv</em> - virtual environments for python
+  - <em>nvm</em> - virtual environments for node
+  - <em>rvm</em> - virtual environments for ruby</p>
+<p>Environmental coupling is accomplished through the use of bash function
+  sets which are integrated into the control, help, and convention systems.</p>
+<ul>
+<li><em>multiple-concurrency</em></li>
+</ul>
+<p>Multiple <code>kbash</code> environments can co-exist, as all shell variables,
+  including the entry point, are scoped by prefixes
+  - <em>SHELL_PREFIX</em> - this is the entrypoint, and is used to prefix all
+    project specfic information.</p>
+<ul>
+<li><em>environment-isolation</em></li>
+</ul>
+<p>Often, when developing <code>node</code> or <code>python</code> systems, each has an
+  active set of CLI entrypoints which are required by the repository.  Many
+  build systems rely on system deployments.  While solutions like <code>docker</code>
+  are excellent at capturing these dependencies, there is often a lengthy
+  task of figuring out how to combine those solutions into a docker image,
+  as well as making decisions about which solution flavor to include.</p>
+<p>The <code>kbash</code> environment is useful in capturing this information, through
+  the use of appropriate environment variables which are unique to a given
+  sub-project.</p>
+<ul>
+<li><em>consistent scripting environment</em></li>
+</ul>
+<p>Many useful patterns in <code>bash</code> scripting are rather arcane.  <code>kbash</code>
+  wraps these in more intent-expressive labels.</p>
+<ul>
+<li><em>dynamic-reload</em></li>
+</ul>
+<p>Talk about <code>kd reset</code> and ACTIVATION_COUNT and prompt</p>
+<ul>
+<li><em>dynamic-assignment</em></li>
+</ul>
+<p>Talk about loading via Eval via boot.sh</p>
+<h1 id="theory-of-operation">Theory of Operation</h1>
+<h2 id="project-specific-activation"><code>$PROJECT</code> specific activation</h2>
+<h3 id="what-is-a-project">What is a <code>$PROJECT</code></h3>
+<p>A project is a <code>kbash</code> environment coupled to a specific based
+directory, known internally as <code>$VAR_PREFIX</code>, where the <code>VAR_PREFIX</code>
+variable is the base of the <code>$PROJECT</code></p>
+<p>Keep in mind that <code>VAR_PREFIX</code> is not the name of the variable, rather
+it is the name of the name of the variable.  So, for example, in the <code>kx</code>
+test project, <code>KXX</code> is the <code>VAR_PREFIX</code> and <code>$KXX</code> evaluates to
+the base of the <code>kx</code> project.</p>
+<h3 id="what-happens">What happens</h3>
+<p>Activate a shell by executing <code>. $PROJECT/activate.sh</code>, which applies
+the environment to the current shell, or <code>$PROJECT/shell.sh</code> which
+spawns a subshell with the <code>$PROJECT</code> environment activated.</p>
+<p>The <code>. $PROJECT/activate.sh</code> command sets the project base directory
+and invokes <code>$KBASH/util/api/boot.sh</code>.  Sourcing <code>boot.sh</code> causes
+the following to occur, where all shell input files are <code>sed</code> filtered
+to replace two strings:</p>
+<ul>
+<li>
+<p><code>SHELL_PREFIX</code>, which is used to prefix all <code>kbash</code> environment
+ elements.  For example, if your entrypoint is <code>kx</code> then all of
+ the functions involved in this environment should be prefixed
+ with <code>kx_</code>.  Access to the environment is then acquired by
+ running commands prefixed with <code>kx</code>, such as <code>kx build project3</code></p>
+</li>
+<li>
+<p><code>VAR_PREFIX</code>, which is used to scope all variables associated with the
+ top level build environment.  Often, the <code>SHELL_PREFIX</code> does not
+ scan well in variable assignments.  In the <code>kx</code> test case, the
+ value of <code>VAR_PREFIX</code> is <code>KXX</code>, meaning that all environment
+ variables associated with the <code>$PROJECT</code> are prefixed with <code>KXX_</code></p>
+</li>
+<li>
+<p>The following global variables are set during invocation</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Pos</th>
+<th>Variable</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$1</td>
+<td>SHELL_PREFIX</td>
+<td>scopes functions</td>
+</tr>
+<tr>
+<td>$2</td>
+<td>VAR_PREFIX</td>
+<td>scopes variables</td>
+</tr>
+<tr>
+<td>$3</td>
+<td>USER_UTIL_LOAD_LIST</td>
+<td>loaded, in order, from <code>$PROJECT</code></td>
+</tr>
+<tr>
+<td>$4</td>
+<td>SYSTEM_UTIL_LOAD_LIST</td>
+<td>loaded, in order, from <code>$K_BASHENV_BASE</code></td>
+</tr>
+</tbody>
+</table>
+<h1 id="directory-layout">Directory Layout</h1>
+<h2 id="api">api</h2>
+<p>The API is defined by
+  - <code>SHELL_PREFIX</code>
+  - <code>VAR_PREFIX</code></p>
+<p>State:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VAR_PREFIX</td>
+<td></td>
+</tr>
+<tr>
+<td>VAR_PREFIX_BASH</td>
+<td>$VAR_PREFIX/bashenv</td>
+</tr>
+<tr>
+<td>VAR_PREFIX_KBASH_LOGS</td>
+<td>$VAR_PREFIX/kbash-logs</td>
+</tr>
+<tr>
+<td>VAR_PREFIX_BASH_COMMAND</td>
+<td>$VAR_PREFIX_BASH/commands</td>
+</tr>
+<tr>
+<td>VAR_PREFIX_FUNCTION_LIST</td>
+<td></td>
+</tr>
+<tr>
+<td>VAR_PREFIX_BASH_FUNCTION</td>
+<td>$VAR_PREFIX_BASH/functions</td>
+</tr>
+<tr>
+<td>VAR_PREFIX_COMPONENT_LIST</td>
+<td></td>
+</tr>
+<tr>
+<td>VAR_PREFIX_COMPONENT_DIR</td>
+<td>$VAR_PREFIX_BASH/components</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apibootsh">api/boot.sh</h3>
+<p>boot.sh is invoked with 4 positional arguments</p>
+<pre><code>. &lt;path-to-project-local-activate.sh&gt; \
+  &quot;SHELL_PREFIX&quot;                      \
+  &quot;VAR_PREFIX&quot;                        \
+  &quot;USER_UTIL_LOAD_LIST&quot;               \
+  &quot;SYSTEM_UTIL_LOAD_LIST&quot;
+</code></pre>
+
+<p>About</p>
+<ul>
+<li><em>SHELL_PREFIX</em>
+  The shell prefix is the command line entry point used to
+  access this environment.  It is also used to scope all
+  functions loaded into the shell.</li>
+</ul>
+<h3 id="apicommands">api/commands</h3></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-04-20 13:50:31
+-->

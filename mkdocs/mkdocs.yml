@@ -1,0 +1,9 @@
+site_name: KBash
+site_dir: ../docs
+docs_dir: ./in
+nav:
+  - Home: index.md
+  - Operations: ops.md
+  - API: api.md
+  - Layout: layout.md
+
