@@ -1,14 +1,14 @@
 #!/bin/bash
-# kbash_load_functions_from_dir SHELL_PREFIX VAR_PREFIX DIR_TO_SCAN
+# kbash_load_functions_from_dir ENTRYPOINT VAR_PREFIX DIR_TO_SCAN
 #
-# - ```SHELL_PREFIX``` - passed to ```kbash_shell_integrate```
+# - ```ENTRYPOINT``` - passed to ```kbash_shell_integrate```
 # - ```VAR_PREFIX``` - passed to ```kbash_shell_integrate```
 # - ```DIR_TO_SCAN``` - directory containing hierarchy of functions
 #
 #
 kbash_load_functions_from_dir() {
   # rename command line
-  local SHELL_PREFIX=$1
+  local ENTRYPOINT=$1
   local VAR_PREFIX=$2
   local DIR_TO_SCAN=$3
 
@@ -21,7 +21,8 @@ kbash_load_functions_from_dir() {
 
   for FUNCTION_FILE in $FUNC_FILES; do
     local FUNC_NAME=$(function_slug "$FUNCTION_FILE" )
-    kbash_shell_integrate "$SHELL_PREFIX" "$VAR_PREFIX" "$DIR_TO_SCAN/$FUNCTION_FILE"
+    kbash_trace load-function-from-dir "$DIR_TO_SCAN/$FUNCTION_FILE"
+    kbash_shell_integrate "$ENTRYPOINT" "$VAR_PREFIX" "$DIR_TO_SCAN/$FUNCTION_FILE"
     eval $BASHENV_VAR=\"$(echo "${!BASHENV_VAR} $FUNC_NAME")\"
   done
   eval $BASHENV_VAR=\"$(sort_list "${!BASHENV_VAR}")\"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function SHELL_PREFIX_print_component_help_summary() {
+function ENTRYPOINT_print_component_help_summary() {
   local WIDTH=18
   if [ ! -z "$VAR_PREFIX_COMPONENT_LIST" ]; then
     printf "Component Commands\n"

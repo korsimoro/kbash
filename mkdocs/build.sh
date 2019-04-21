@@ -1,6 +1,9 @@
 #!/bin/bash
 export BUILD_DOCS_BASE=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+echo "Building docs in "$BUILD_DOCS_BASE
+cd $BUILD_DOCS_BASE
+
 set -e
 if [ ! -d "$BUILD_DOCS_BASE/venv" ]; then
   virtualenv -p python3 "$BUILD_DOCS_BASE/venv"

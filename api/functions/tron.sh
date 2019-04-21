@@ -1,20 +1,26 @@
 #!/bin/bash
 
 
-function oneline_help_SHELL_PREFIX_tron() {
-  echo "Start trace execution."
+function oneline_help_ENTRYPOINT_tron() {
+  echo "Start bash execution trace."
 }
+export -f oneline_help_ENTRYPOINT_tron
 
-function help_SHELL_PREFIX_tron() {
+function cmdline_help_ENTRYPOINT_tron() {
+  echo ""
+}
+export -f cmdline_help_ENTRYPOINT_tron
+
+function help_ENTRYPOINT_tron() {
 printf "`cat << EOF
-${BLUE}SHELL_PREFIX tron${NC}
-
-
+Equivalent to
+  set -x
 EOF
 `\n"
 }
+export -f help_ENTRYPOINT_tron
 
-function run_SHELL_PREFIX_tron() {
+function run_ENTRYPOINT_tron() {
   set -x
 }
-export -f oneline_help_SHELL_PREFIX_tron help_SHELL_PREFIX_tron run_SHELL_PREFIX_tron
+export -f run_ENTRYPOINT_tron

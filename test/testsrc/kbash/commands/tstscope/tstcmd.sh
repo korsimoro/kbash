@@ -3,7 +3,7 @@
 
 function print_help() {
 printf "`cat << EOF
-${BLUE}SHELL_PREFIX tstscope tstcmd${NC}
+${BLUE}ENTRYPOINT tstscope tstcmd${NC}
 
 This is a test function nested in a scope
 
@@ -12,5 +12,5 @@ EOF
 }
 
 function run() {
-  echo "function tstcmd in scoped SHELL_PREFIX"
+  echo "function tstcmd in scoped ENTRYPOINT"
 }

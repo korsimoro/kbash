@@ -1,13 +1,16 @@
 #!/bin/bash
 
 
-function oneline_help_SHELL_PREFIX_parallel() {
+function oneline_help_ENTRYPOINT_parallel() {
   echo "Control how many jobs run in parallel."
 }
 
-function help_SHELL_PREFIX_parallel() {
+function cmdline_help_ENTRYPOINT_parallel() {
+  echo "MAXJOBS"
+}
+
+function help_ENTRYPOINT_parallel() {
 printf "`cat << EOF
-${BLUE}kd parallel [VALUE]${NC}
 
 Control how many jobs run in parallel
 
@@ -15,10 +18,10 @@ EOF
 `\n"
 }
 
-function run_SHELL_PREFIX_parallel() {
+function run_ENTRYPOINT_parallel() {
   local NEWVAL=$(slugify $1)
-  if SHELL_PREFIX_help_on_empty_or_help parallel "$NEWVAL"; then
-    SHELL_PREFIX_MAX_PARALLEL=$NEWVAL
+  if ENTRYPOINT_help_on_empty_or_help parallel "$NEWVAL"; then
+    ENTRYPOINT_MAX_PARALLEL=$NEWVAL
   fi
 }
-export -f run_SHELL_PREFIX_parallel help_SHELL_PREFIX_parallel oneline_help_SHELL_PREFIX_parallel
+export -f run_ENTRYPOINT_parallel help_ENTRYPOINT_parallel oneline_help_ENTRYPOINT_parallel

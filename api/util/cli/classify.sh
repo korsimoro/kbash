@@ -1,5 +1,5 @@
 #!/bin/bash
-function SHELL_PREFIX_classify() {
+function ENTRYPOINT_classify() {
   local DIR=$1
   local PROBE=$2
   if [ -f "$DIR/$PROBE/.scope.sh" ]; then
@@ -12,4 +12,4 @@ function SHELL_PREFIX_classify() {
     fi
   fi
 }
-export -f SHELL_PREFIX_classify
+export -f ENTRYPOINT_classify

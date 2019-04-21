@@ -1,29 +1,32 @@
 #!/bin/bash
 
-function oneline_help_SHELL_PREFIX_cd() {
+function oneline_help_ENTRYPOINT_cd() {
   echo "cd $VAR_PREFIX/[PATH] (or base w/o arg)"
 }
+export -f oneline_help_ENTRYPOINT_cd
 
-function help_SHELL_PREFIX_cd() {
+function cmdline_help_ENTRYPOINT_cd() {
+  echo "[PATH]"
+}
+export -f cmdline_help_ENTRYPOINT_cd
+
+function help_ENTRYPOINT_cd() {
 printf "`cat << EOF
-${BLUE}SHELL_PREFIX cd [PATH]${NC}
-
-This is a shell function, which changes the current working
-directory to
-  ${YELLOW}$VAR_PREFIX/[PATH]${NC}.
+This is a shell function, which execute cd as follows:
+  cd ${YELLOW}$VAR_PREFIX/[PATH]${NC}.
 
 If no PATH is provided, this just cds into
-  ${YELLOW}$VAR_PREFIX${NC}
-
+  cd ${YELLOW}$VAR_PREFIX${NC}
 EOF
-`\n\n"
+`"
 }
+export -f help_ENTRYPOINT_cd
 
-function run_SHELL_PREFIX_cd() {
+function run_ENTRYPOINT_cd() {
   if [ -z "$1" ]; then
     cd $VAR_PREFIX
   else
     cd $VAR_PREFIX/$1
   fi
 }
-export -f run_SHELL_PREFIX_cd help_SHELL_PREFIX_cd oneline_help_SHELL_PREFIX_cd
+export -f run_ENTRYPOINT_cd

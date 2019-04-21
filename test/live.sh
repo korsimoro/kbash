@@ -1,23 +1,24 @@
 #!/bin/bash
-SRCDIR=$PWD/testsrc
+export TEST_BASE=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+SRCDIR=$TEST_BASE/testsrc
 
 rm -rf testdir
 
-DEST=$PWD/testdir/kx
+DEST=$TEST_BASE/testdir/kx
 mkdir -p $DEST
 cp -r $SRCDIR/* $DEST
 find $DEST -type f -exec sed -i -e 's/VAR_PREFIX/KXX/g' {} \;
-find $DEST -type f -exec sed -i -e 's/SHELL_PREFIX/kx/g' {} \;
+find $DEST -type f -exec sed -i -e 's/ENTRYPOINT/kx/g' {} \;
 ./setup.sh kx KXX $DEST
-ACTIVATE_KX=$PWD/testdir/kx/bashenv/activate.sh
+ACTIVATE_KX=$TEST_BASE/testdir/kx/bashenv/activate.sh
 
-DEST=$PWD/testdir/ky
+DEST=$TEST_BASE/testdir/ky
 mkdir -p $DEST
 cp -r $SRCDIR/* $DEST
 find $DEST -type f -exec sed -i -e 's/VAR_PREFIX/KYY/g' {} \;
-find $DEST -type f -exec sed -i -e 's/SHELL_PREFIX/ky/g' {} \;
+find $DEST -type f -exec sed -i -e 's/ENTRYPOINT/ky/g' {} \;
 ./setup.sh ky KYY $DEST
-ACTIVATE_KY=$PWD/testdir/ky/bashenv/activate.sh
+ACTIVATE_KY=$TEST_BASE/testdir/ky/bashenv/activate.sh
 
 . $ACTIVATE_KX
 . $ACTIVATE_KY

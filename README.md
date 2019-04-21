@@ -2,12 +2,15 @@
 
 ## Proof of Concept
 
-This will verify that the system is operational.
+This will verify that the system is operational by dropping you into a
+shell
 
 ```
 git clone git@github.com:korsimoro/kbash ~/.kbash
-~/.kbash/test/live.sh
+~/.kbash/test/sanity.sh
 ```
+
+[Example Output](example-outputs#sanity)
 
 ## Bootstrap
 
@@ -16,13 +19,36 @@ This is how you bootstrap a new environment
 ```
 git clone git@github.com:korsimoro/kbash ~/.kbash
 ~/.kbash/setup.sh <ENTRYPOINT> <VARSCOPE> <DIRECTORY>
+<DIRECTORY>/shell.sh
 ```
+
 
 | Argument   | Description                           |
 |------------|---------------------------------------|
 | ENTRYPOINT | This is the name of the command introduced into the environment, and the prefix on all defined shell assets (functions, internal variables) |
 | VARSCOPE   | This is the prefix attached to all public variables used to describe and control the environment |
 | DIRECTORY  | This is the directory in which the new ```kbash``` environment is to be set up |
+
+## Troubleshooting
+
+# Terminology and Core Ideas
+
+## What is a ```$PROJECT```
+
+A project is a ```kbash``` environment coupled to a specific base
+directory, known internally as ```$VAR_PREFIX```, where the ```VAR_PREFIX```
+variable is the base of the ```$PROJECT```
+
+Keep in mind that ```VAR_PREFIX``` is not the name of the variable, rather
+it is the name of the name of the variable.  So, for example, in the ```kx```
+test project, ```KXX``` is the ```VAR_PREFIX``` and ```$KXX``` evaluates to
+the base of the ```kx``` project.
+
+## Commands and Functions
+
+## Utility files and Language Support
+
+## Components
 
 # Concept and Purpose
 
@@ -81,7 +107,7 @@ to *get the dev-env working* first.
 
   Multiple ```kbash``` environments can co-exist, as all shell variables,
   including the entry point, are scoped by prefixes
-  - *SHELL_PREFIX* - this is the entrypoint, and is used to prefix all
+  - *ENTRYPOINT* - this is the entrypoint, and is used to prefix all
     project specfic information.
 
 - *environment-isolation*
@@ -127,35 +153,3 @@ to *get the dev-env working* first.
 - *lerna-replacement*
 
   The ```kbash``` environment is not a ```lerna``` replacement
-
-
-# [Repository Layout](layout.md)
-
-## Subdirectories
-|Dir       | Purpose       |
-|----------|---------------|
-|api       | Subsystem exposed in consumer shells              |
-|core      | Core ```bash``` abilities               |
-|docs      | Documentation shipped on public site             |
-|lang      | Specific Language Support (node, python, ruby, etc....)             |
-|mkdocs    | Source for site docs             |
-|setup     | Templates used in new environments             |
-|test      | Utilities supporting test             |
-
-## Executable Files
-|File       | Purpose       |
-|----------|---------------|
-|boot.sh   | Invoke to activate custom environment              |
-|setup.sh  | Use to set up a new environment |
-
-## Utility Files
-|Fjle       | Purpose       |
-|----------|---------------|
-|os.sh     | Specific OS/Bash level adaptations             |
-
-
-## Control Files
-|Fjle       | Purpose       |
-|----------|---------------|
-|README.md  | Use to set up a new environment |
-|LICENSE  | not yet present |

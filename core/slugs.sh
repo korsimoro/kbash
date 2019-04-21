@@ -35,3 +35,9 @@ function_slug()
   echo "$1" | sed 's/[/]/_/g' | sed 's/.sh$//g'
 }
 export -f function_slug
+
+function_slug_to_dashes()
+{
+  echo "$1" | sed 's/_/-/g'
+}
+export -f function_slug_to_dashes

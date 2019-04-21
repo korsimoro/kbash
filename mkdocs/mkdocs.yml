@@ -4,6 +4,12 @@ docs_dir: ./in
 nav:
   - Home: index.md
   - Operations: ops.md
-  - API: api.md
   - Layout: layout.md
-
+  - API:
+    - Intro: api/intro.md
+    - Commands: api/commands.md
+    - Functions: api/functions.md
+    - Util: api/util.md
+  - Examples:
+     - Output: example-outputs.md
+     - Manual: example-manual.md

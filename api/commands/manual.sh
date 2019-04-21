@@ -3,38 +3,13 @@
 
 print_help() {
 printf "`cat << EOF
-${BLUE}kd manual ${NC}
-
-Recursively assemble documentation as a markdown
+Recursively assembleup documentation as a markdown
 file.
 EOF
 `\n\n"
 
 }
 
-dump_manual() (
-  X="$@"
-  if [[ $DEPTH -gt 0 ]]; then
-    for i in $(seq 1 $DEPTH); do
-      printf "#"
-    done
-    printf " $X\n"
-  fi
-
-  printf "\`\`\`\n"
-  $@ help
-  printf "\`\`\`\n"
-
-  X=${X// /-}
-  DEPTH=$((DEPTH+1))
-  CMDS="$(findkids $X)"
-  KIDS="$TOP_LEVEL_FUNCTIONS $CMDS"
-  KIDS=$(echo $KIDS | tr ' ' '\n' | sort)
-  TOP_LEVEL_FUNCTIONS=""
-  for KID in $KIDS; do
-    dump_manual $@ "$KID"
-  done
-)
 
 run() {
   export YELLOW=''
@@ -47,9 +22,51 @@ run() {
   # if we don't do this, then print_help above is called for the
   # first invocation of 'kd help'
 
-  TOP_LEVEL_FUNCTIONS=$FUNCS
-  printf "# Table of contents\n"
-  dump_manual kd | $KITWB_SCRIPTS_DIR/gh-md-toc -
-  printf "# KD Help\n"
-  DEPTH=0
+  local STARTCODE="\`\`\`"
+  local STARTBLOCK="\`\`\`shell \n"
+  local ENDCODE="\`\`\`"
+  printf "`cat << EOF
+
+# ENTRYPOINT
+
+${STARTBLOCK}$(ENTRYPOINT )\n${ENDCODE}
+
+## Functions
+
+Functions manipulate the local shell variables, unlike commands, which are
+executed by the shell as a subprocess.
+
+EOF
+`\n\n"
+
+for FUNC in $VAR_PREFIX_FUNCTION_LIST; do
+  printf "### ${STARTCODE}$(function_slug_to_dashes $FUNC)${ENDCODE}\n\n${STARTBLOCK}\n"
+  printf "$(ENTRYPOINT $FUNC help)\n"
+  printf "${ENDCODE}\n\n\n"
+done
+
+
+
+printf "`cat << EOF
+
+## Components
+EOF
+`\n\n"
+
+for COMPONENT in $VAR_PREFIX_COMPONENT_LIST; do
+  printf "### ${STARTCODE}$COMPONENT${ENDCODE}\n\n${STARTBLOCK}\n"
+  printf "$(ENTRYPOINT $COMPONENT help)\n"
+  printf "${ENDCODE}\n\n\n"
+
+
+done
+
+printf "`cat << EOF
+
+## About
+
+${STARTBLOCK}$(ENTRYPOINT about )\n${ENDCODE}
+
+EOF
+`\n\n"
 }

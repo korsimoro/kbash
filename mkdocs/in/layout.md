@@ -1,39 +1,30 @@
-# api
+# Repository Layout
 
-The API is defined by
-  - ```SHELL_PREFIX```
-  - ```VAR_PREFIX```
+## Subdirectories
+|Dir       | Purpose       |
+|----------|---------------|
+|api       | Subsystem exposed in consumer shells              |
+|core      | Core ```bash``` abilities               |
+|docs      | Documentation shipped on public site             |
+|lang      | Specific Language Support (node, python, ruby, etc....)             |
+|mkdocs    | Source for site docs             |
+|setup     | Templates used in new environments             |
+|test      | Utilities supporting test             |
 
-State:
+## Executable Files
+|File       | Purpose       |
+|----------|---------------|
+|boot.sh   | Invoke to activate custom environment              |
+|setup.sh  | Use to set up a new environment |
 
-|Variable                   | Value                         |
-|---------------------------|-------------------------------|
-| VAR_PREFIX                |                               |
-| VAR_PREFIX_BASH           | $VAR_PREFIX/bashenv           |
-| VAR_PREFIX_KBASH_LOGS     | $VAR_PREFIX/kbash-logs        |
-| VAR_PREFIX_BASH_COMMAND   | $VAR_PREFIX_BASH/commands     |
-| VAR_PREFIX_FUNCTION_LIST  |                               |
-| VAR_PREFIX_BASH_FUNCTION  | $VAR_PREFIX_BASH/functions    |
-| VAR_PREFIX_COMPONENT_LIST |                               |
-| VAR_PREFIX_COMPONENT_DIR  | $VAR_PREFIX_BASH/components   |
+## Utility Files
+|Fjle       | Purpose       |
+|----------|---------------|
+|os.sh     | Specific OS/Bash level adaptations             |
 
-## api/boot.sh
 
-boot.sh is invoked with 4 positional arguments
-
-```
-. <path-to-project-local-activate.sh> \
-  "SHELL_PREFIX"                      \
-  "VAR_PREFIX"                        \
-  "USER_UTIL_LOAD_LIST"               \
-  "SYSTEM_UTIL_LOAD_LIST"
-```
-
-About
-
-- *SHELL_PREFIX*
-  The shell prefix is the command line entry point used to
-  access this environment.  It is also used to scope all
-  functions loaded into the shell.
-
-## api/commands
+## Control Files
+|Fjle       | Purpose       |
+|----------|---------------|
+|README.md  | Use to set up a new environment |
+|LICENSE  | not yet present |

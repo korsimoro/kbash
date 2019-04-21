@@ -1,12 +1,12 @@
 #!/bin/bash
 
-function oneline_help_SHELL_PREFIX_tstfunc() {
+function oneline_help_ENTRYPOINT_tstfunc() {
   echo "tstfunc home, or into $VAR_PREFIX/[C]."
 }
 
-function help_SHELL_PREFIX_tstfunc() {
+function help_ENTRYPOINT_tstfunc() {
 printf "`cat << EOF
-${BLUE}SHELL_PREFIX tstfunc${NC}
+${BLUE}ENTRYPOINT tstfunc${NC}
 
 This is an example of a function at the root level.
 
@@ -14,7 +14,7 @@ EOF
 `\n\n"
 }
 
-function run_SHELL_PREFIX_tstfunc() {
+function run_ENTRYPOINT_tstfunc() {
   echo "running tstfunc"
 }
-export -f run_SHELL_PREFIX_tstfunc help_SHELL_PREFIX_tstfunc oneline_help_SHELL_PREFIX_tstfunc
+export -f run_ENTRYPOINT_tstfunc help_ENTRYPOINT_tstfunc oneline_help_ENTRYPOINT_tstfunc

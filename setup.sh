@@ -11,9 +11,9 @@ if [ -z "$COMMAND" ] ||\
   exit -1
 fi
 
-TARGET=$TBASE/bashenv
+TARGET=$TBASE/kbash
 KBASE=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-KSETUP=$KBASE/setup/base
+KSETUP=$KBASE/setup/project
 
 if [ -f "$TARGET" ]; then
   echo "$TARGET already exists and is a file"
@@ -27,7 +27,7 @@ fi
 cp -r $KSETUP/* $TARGET
 cat $KSETUP/activate.sh \
   | sed s/VAR_PREFIX/$PREFIX/g \
-  | sed s/SHELL_PREFIX/$COMMAND/g \
+  | sed s/ENTRYPOINT/$COMMAND/g \
   | sed "s|KBASE|$KBASE|g" \
   > $TARGET/activate.sh
 chmod +x $TARGET/shell.sh

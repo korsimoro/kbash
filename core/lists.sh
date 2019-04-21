@@ -3,13 +3,17 @@
 sort_list() {
   echo "$@" | tr ' ' '\n' | sort | tr '\n' ' '
 }
-sorted_key_list() {
+export -f sort_list
+
+sorted_key_set() {
   echo "$@" | tr ' ' '\n' | sort | uniq | tr '\n' ' '
 }
+export -f sorted_key_set
+
 contains() {
   local LIST=$1
   local TERM=$2
   [[ $LIST =~ (^|[[:space:]])"$TERM"($|[[:space:]]) ]]
 }
 
-export -f sort_list sorted_key_list contains
+export -f contains
