@@ -21,7 +21,12 @@ jobs:
       - checkout
 
       - run:
-          name: build docs
+          name: fake clone into ~/.kbash
+          command: |
+            ln -s ~/repo ~/.kbash
+
+      - run:
+          name: sanity
           command: |
             ./test/sanity.sh
 
