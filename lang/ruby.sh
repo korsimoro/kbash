@@ -1,7 +1,11 @@
 #!/bin/bash
 
-if [ -d "$HOME/.rvm" ]; then
-	export RVM_DIR="$HOME/.rvm"
+if [ -d "$VAR_PREFIX/.rvm" ]; then
+	export rvm_path="$VAR_PREFIX/.rvm"
+	export KBASH_RUBY=true
+else
+	unset rvm_path
+	unset KBASH_RUBY
 fi
 
 report_ruby_env() {
@@ -11,10 +15,10 @@ report_ruby_env() {
 
   report_subheading "Node Environment"
 
-	if [ -z "$RVM_DIR" ]; then
+	if [ -z "$rvm_path" ]; then
 		report_warning "Missing RVM"
 	else
-		report_ok "RVM Dir Present:"$RVM_DIR
+		report_ok "RVM Dir Present:"$rvm_path
 	fi
 
 	if [ -z "$PACKAGE_JSON" ]; then
@@ -34,11 +38,11 @@ report_ruby_env() {
 export -f report_python_env
 
 prepare_rvm_and_version() {
+
 	if type rvm >/dev/null 2>&1; then
 		echo "Using existing rvm"
 	else
-		[ -s "$RVM_DIR/rvm.sh" ] && \. "$RVM_DIR/rvm.sh"  # This loads rvm
-		[ -s "$RVM_DIR/bash_completion" ] && \. "$RVM_DIR/bash_completion"  # This loads rvm bash_completion
+		. $rvm_path/scripts/rvm
 	fi
 
 	if ! rvm use $1; then
@@ -46,16 +50,16 @@ prepare_rvm_and_version() {
   	rvm use $1
 	fi
 
+	pathadd $rvn_path/gems/$1/bin
 	hash -r
-	if ! command -v yarn >/dev/null; then
-  		npm install -g yarn
-	fi
+	which ruby
+	ruby --version
 }
 export -f prepare_rvm_and_version
 
 function check_basic_ruby_ability() {
-	if [ "$RVM_DIR" = "" ]; then
-		echo "can not find RVM_DIR environment variable."
+	if [ "$rvm_path" = "" ]; then
+		echo "can not find rvm_path environment variable."
 		echo "please visit https://github.com/creationix/rvm to install and configure RVM"
 		false
 	else

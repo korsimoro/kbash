@@ -13,6 +13,7 @@ function help_ENTRYPOINT_describe() {
 
 function run_ENTRYPOINT_describe() {
   ENTRYPOINT_run_component_func describe $@
+  describe_active_ENTRYPOINT_environment
 }
 
 function describe_active_ENTRYPOINT_environment() {

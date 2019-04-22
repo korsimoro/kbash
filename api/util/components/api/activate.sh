@@ -22,7 +22,7 @@ function run_ENTRYPOINT_activate() {
     echo "Activated $COMPONENT"
     echo "   - ran activate_environment_$COMPONENT"
     echo "   - setting VAR_PREFIX_ACTIVE_DEVCOMPONENT"
-    VAR_PREFIX_ACTIVE_DEVCOMPONENT=$COMPONENT
+    VAR_PREFIX_ACTIVE_DEVENV=$COMPONENT
     echo "   - adjusting prompt"
     ENTRYPOINT_reprompt
     echo "   - cd into environment home"
