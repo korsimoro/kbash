@@ -4,6 +4,11 @@ function oneline_help_ENTRYPOINT_kbash_troff() {
   echo "disable KBASH_TRACE"
 }
 
+function cmdline_help_ENTRYPOINT_kbash_troff() {
+  echo ""
+}
+export -f cmdline_help_ENTRYPOINT_kbash_troff
+
 function help_ENTRYPOINT_kbash_troff() {
 printf "`cat << EOF
 This is equivalent to

@@ -2,6 +2,11 @@
 function oneline_help_ENTRYPOINT_clean() {
   echo "Remove as many artifacts for [C] as we know about"
 }
+function cmdline_help_ENTRYPOINT_clean() {
+  echo "[COMPONENT]"
+}
+export -f cmdline_help_ENTRYPOINT_clean
+
 function help_ENTRYPOINT_clean() {
   ENTRYPOINT_print_component_help clean
 }

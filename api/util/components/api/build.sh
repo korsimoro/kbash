@@ -2,6 +2,11 @@
 function oneline_help_ENTRYPOINT_build() {
   echo "Build [C] using component build system"
 }
+function cmdline_help_ENTRYPOINT_build() {
+  echo "[COMPONENT]"
+}
+export -f cmdline_help_ENTRYPOINT_build
+
 function help_ENTRYPOINT_build() {
   print_component_help build
 }

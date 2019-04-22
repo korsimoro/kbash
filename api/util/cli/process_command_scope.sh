@@ -16,6 +16,8 @@ ENTRYPOINT_process_command_scope() (
   local REPORT_MESSAGE=$4
   shift 4
 
+  kbash_trace "PROCESS_CMD_SCOPE: STARTING_IN_DIR='$STARTING_IN_DIR' COMMAND_TO_FIND='$COMMAND_TO_FIND' REPORT_MESSAGE='$REPORT_MESSAGE' REMAINDER='$@'"
+
   # load the current scope into this subprocess
   local SCOPE=$STARTING_IN_DIR/.scope.sh
   if [ ! -f "$SCOPE" ]; then
@@ -35,12 +37,12 @@ ENTRYPOINT_process_command_scope() (
     local COMMAND_DIR=$STARTING_IN_DIR/$COMMAND_TO_FIND
 
     if [ -f "$COMMAND_FILE" ]; then
-      $VISITOR "$STARTING_IN_DIR" execute-file "$COMMAND_FILE" $@
+      $VISITOR "$STARTING_IN_DIR" execute-file "$COMMAND_FILE" "$@"
     else
       if [ -d "$COMMAND_DIR" ]; then
         local NEXT_COMMAND=$1
         shift 1
-        $VISITOR "$STARTING_IN_DIR" enter-scope "$COMMAND_DIR" "$NEXT_COMMAND" "$REPORT_MESSAGE/$COMMAND_TO_FIND" $@
+        $VISITOR "$STARTING_IN_DIR" enter-scope "$COMMAND_DIR" "$NEXT_COMMAND" "$REPORT_MESSAGE/$COMMAND_TO_FIND" "$@"
       else
         $VISITOR "$STARTING_IN_DIR" command-not-found "$COMMAND_TO_FIND" "$REPORT_MESSAGE"
       fi

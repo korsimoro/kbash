@@ -10,13 +10,15 @@
 ENTRYPOINT() {
   # if the command line is just "ENTRYPOINT"
   if [ -z "$(echo $@ )" ]; then
-     ENTRYPOINT_print_main_help
+    kbash_trace entrypoint-only-execution "ENTRYPOINT was executed with no further arguments"
+    ENTRYPOINT_print_main_help
   else
     # we have at least one argument, so peal it off "$@" can then be passed
     # along as needed
     local FIRST_ARG=$1
     shift 1
     if is_help_option "$FIRST_ARG"; then
+      kbash_trace entrypoint-first-arg-is-help-option "ENTRYPOINT was executed with a help argument only"
       ENTRYPOINT_print_main_help $@
     else
       # check to see if itis a function
@@ -24,8 +26,10 @@ ENTRYPOINT() {
       local TYPE="$(type -t $FUNC)"
       if [ "$TYPE" = "function" ]; then
         if is_help_option "$1"; then
+          kbash_trace entrypoint-function-first-arg-is-help-option "ENTRYPOINT was executed with a function and help argument"
           ENTRYPOINT_print_function_help $(slugify $FIRST_ARG)
         else
+          kbash_trace entrypoint-function-first-arg-is-not-help-option "ENTRYPOINT was executed with a function and non-help arguments $@"
           $FUNC $@
         fi
       else

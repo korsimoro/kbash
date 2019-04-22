@@ -24,7 +24,9 @@ export -f is_osx
 
 kbash_trace() {
   if [ "true" = "$KBASH_TRACE" ]; then
-    echo "$@"
+		local TAG=$1
+		shift 1
+    printf "${BLUE}%15s${NC}\n  ${YELLOW}%25s${NC}\n  %s\n" "$TAG" "$(caller )" "$@" >&2
   fi
 }
 export -f kbash_trace

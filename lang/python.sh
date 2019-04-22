@@ -56,6 +56,10 @@ check_basic_python_ability() (
 
 default_python_setup() (
   local BASE=$1
+  if [ -z "$BASE" ]; then
+    error "default_python_setup called w/o BASE directory."
+  fi
+
   local VENV=$BASE/venv
   if ensure_active_python3_env $VENV; then
 	  cd $BASE

@@ -19,7 +19,6 @@ export VAR_PREFIX_KBASH_FUNCTION=$VAR_PREFIX_KBASH/functions
 export VAR_PREFIX_COMPONENT_LIST=""
 export VAR_PREFIX_COMPONENT_DIR=$VAR_PREFIX_KBASH/components
 
-# components - these can be used as the first arg to the entrpoint
-# ENTRYPOINT <entrypoint> ....
-#export VAR_PREFIX_COMPONENT_LIST=""
-#export  VAR_PREFIX_COMPONENT_DIR=$VAR_PREFIX_KBASH/components
+# languages
+declare -A VAR_PREFIX_LANGUAGE_MAP
+export VAR_PREFIX_LANGUAGE_MAP

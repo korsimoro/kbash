@@ -7,18 +7,6 @@ VAR_PREFIX=$2
 USER_UTIL_LOAD_LIST=$3
 LANG_LOAD_LIST=$4
 
-# establish the base directory of the core...
-export KBASH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-export KBASH_CORE=$KBASH/core
-export KBASH_LANG=$KBASH/lang
-
-# API relevant functions - these arer filtered against both ENTRYPOINT
-# and VAR_PREFIX, so the
-export KBASH_API=$KBASH/api
-export KBASH_API_COMMAND_DIR=$KBASH_API/commands
-export KBASH_API_FUNCTION_DIR=$KBASH_API/functions
-export KBASH_API_UTIL_DIR=$KBASH_API/util
-
 if [ -z "${!VAR_PREFIX}" ]; then
   echo "The $VAR_PREFIX variable is not set - this must be set in activate"
 else
@@ -34,11 +22,13 @@ else
     # earlier entries
     kbash_trace loading-core-modules "$KBASH_CORE"
     for CORE_MODULE in \
+        "state"\
         "output"\
         "fs"\
         "lists"\
         "help"\
         "load_functions_from_dir"\
+        "lang"\
         "path"\
         "shell_integrate"\
         "slugs"\
@@ -51,32 +41,29 @@ else
     # and VAR_PREFIX variables
     kbash_trace integrate-api-modules "$KBASH_API"
     for API_MODULE in \
-      "$KBASH_API_UTIL_DIR/cli/state"\
-      "$KBASH_API_UTIL_DIR/cli/completion"\
-      "$KBASH_API_UTIL_DIR/cli/count"\
-      "$KBASH_API_UTIL_DIR/cli/reprompt"\
-      "$KBASH_API_UTIL_DIR/cli/classify"\
-      "$KBASH_API_UTIL_DIR/cli/process_command_scope"\
-      "$KBASH_API_UTIL_DIR/cli/process_command_scope_visitor"\
-      "$KBASH_API_UTIL_DIR/cli/entrypoint"\
-      "$KBASH_API_UTIL_DIR/help/print_main_help"\
-      "$KBASH_API_UTIL_DIR/help/print_scope_help_summary"\
-      "$KBASH_API_UTIL_DIR/help/print_component_help_summary"\
-      "$KBASH_API_UTIL_DIR/help/print_function_help"\
-      "$KBASH_API_UTIL_DIR/help/print_function_help_summary"\
-      "$KBASH_API_UTIL_DIR/components/driver/load_component"\
-      "$KBASH_API_UTIL_DIR/components/driver/load_components"\
-      "$KBASH_API_UTIL_DIR/components/driver/run_component_func"\
-      "$KBASH_API_UTIL_DIR/components/help/help_on_empty_or_help"\
-      "$KBASH_API_UTIL_DIR/components/help/print_component_list"\
-      "$KBASH_API_UTIL_DIR/components/help/print_component_help"\
-      "$KBASH_API_UTIL_DIR/components/parallel"\
-
-      # enable secondary drivbers
-      #"$KBASH_API_UTIL_DIR/external/";
+      "cli/state"\
+      "cli/completion"\
+      "cli/count"\
+      "cli/reprompt"\
+      "cli/classify"\
+      "cli/process_command_scope"\
+      "cli/process_command_scope_visitor"\
+      "cli/entrypoint"\
+      "help/print_main_help"\
+      "help/print_scope_help_summary"\
+      "help/print_component_help_summary"\
+      "help/print_function_help"\
+      "help/print_function_help_summary"\
+      "components/driver/load_component"\
+      "components/driver/load_components"\
+      "components/driver/run_component_func"\
+      "components/help/help_on_empty_or_help"\
+      "components/help/print_component_list"\
+      "components/help/print_component_help"\
+      "components/parallel";
     do
       kbash_trace loading-api-module "${API_MODULE}.sh"
-      kbash_shell_integrate "$ENTRYPOINT" "$VAR_PREFIX" "${API_MODULE}.sh"
+      kbash_shell_integrate "$ENTRYPOINT" "$VAR_PREFIX" "${KBASH_API_UTIL_DIR}/${API_MODULE}.sh"
     done
 
     # load any standard system modules specified.  This is typically
@@ -85,9 +72,10 @@ else
     kbash_trace loading-kbash-functions "$KBASH_API_FUNCTION_DIR"
     kbash_load_functions_from_dir "$ENTRYPOINT" "$VAR_PREFIX" "$KBASH_API_FUNCTION_DIR"
 
-    for LANGUAGE_FILE in $LANG_LOAD_LIST; do
-      kbash_trace loading-language-module "$KBASH_LANG/$LANGUAGE_FILE"
-      kbash_shell_integrate "$ENTRYPOINT" "$VAR_PREFIX" "$KBASH_LANG/$LANGUAGE_FILE"
+    for LANGUAGE in $LANG_LOAD_LIST; do
+      kbash_trace loading-language-module "$KBASH_LANG/$LANGUAGE"
+      kbash_shell_integrate "$ENTRYPOINT" "$VAR_PREFIX" "$KBASH_LANG/$LANGUAGE.sh"
+      kbash_register_language "$LANGUAGE"
     done
 
     # load the user environment from $PROJECT/bashenv.  This is typically

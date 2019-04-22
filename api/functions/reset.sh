@@ -28,9 +28,18 @@ EOF
 export -f help_ENTRYPOINT_reset
 
 function run_ENTRYPOINT_reset() {
-  if [ ! -z "$@" ]; then
-    printf "${RED}ENTRYPOINT_reset${NC}\n"
-    printf "Do not understand arguments '$@'\n"
+  if [ ! -z "$1" ]; then
+    if [ "--trace" = "$1" ]; then
+      KBASH_TRACE=false
+      . $VAR_PREFIX_KBASH/activate.sh
+      KBASH_TRACE=true
+      shift 1
+      kbash_trace reset-trace "of $@"
+      $@
+    else
+      printf "${RED}ENTRYPOINT_reset${NC}\n"
+      printf "Do not understand arguments '$@'\n"
+    fi
   else
     export PATH=$VAR_PREFIX_ORIGINAL_PATH
     . $VAR_PREFIX_KBASH/activate.sh

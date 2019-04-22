@@ -3,6 +3,10 @@
 function oneline_help_ENTRYPOINT_kbash_tron() {
   echo "set KBASH_TRACE to trace KBASH internals"
 }
+function cmdline_help_ENTRYPOINT_kbash_tron() {
+  echo ""
+}
+export -f cmdline_help_ENTRYPOINT_kbash_tron
 
 function help_ENTRYPOINT_kbash_tron() {
 printf "`cat << EOF

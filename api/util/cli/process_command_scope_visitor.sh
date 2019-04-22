@@ -3,11 +3,11 @@
 #
 #
 ENTRYPOINT_process_command_scope_visitor() {
-  kbash_trace "Visit command scope:$@"
+  kbash_trace function-enter "ENTRYPOINT_process_command_scope_visitor:$@"
   local BASE=$1
-  local ARG=$2
+  local EVENT=$2
   shift 2
-  case $ARG in
+  case $EVENT in
     print-scope-help)
       printf "${BOLD}${BLUE}$(ENTRYPOINT_scope_usage )${NC}\n\n"
       printf "$(ENTRYPOINT_scope_help $@)\n"
@@ -17,19 +17,27 @@ ENTRYPOINT_process_command_scope_visitor() {
       # careful... this expects to be entered into via ENTRYPOINT()
       # which invokes the command executor
       local FILE=$1
-      local NEXT_ARG=$2
+      local FIRST_ARG=$2
       shift 1
+      kbash_trace "kbash_shell_integrate ENTRYPOINT VAR_PREFIX $FILE"
       kbash_shell_integrate "ENTRYPOINT" "VAR_PREFIX" $FILE
-      if is_help_option "$NEXT_ARG"; then
+      if is_help_option "$FIRST_ARG"; then
         shift 1
+        kbash_trace visitor-file-help-requested "$FIRST_ARG $@"
         print_help "$@"
       else
+        kbash_trace visitor-file-execution-requested "$FIRST_ARG $@"
         run $@
       fi
       ;;
     enter-scope)
-      kbash_trace "Processing Scope '$1' '$2' '$3' '$4'"
-      ENTRYPOINT_process_command_scope ENTRYPOINT_process_command_scope_visitor "$1" "$2" "$3"
+      local STARTING_IN_DIR="$1"
+      local COMMAND_TO_FIND="$2"
+      local REPORT_MESSAGE="$3"
+      shift 3
+      local CMDLINE="$@"
+      kbash_trace visitor-enter-scope "$(report_vars calling-process-command-scope STARTING_IN_DIR COMMAND_TO_FIND REPORT_MESSAGE CMDLINE)"
+      ENTRYPOINT_process_command_scope ENTRYPOINT_process_command_scope_visitor "$STARTING_IN_DIR" "$COMMAND_TO_FIND" "$REPORT_MESSAGE" "$CMDLINE"
       ;;
     command-not-found)
       local COMMAND=$1
@@ -37,7 +45,7 @@ ENTRYPOINT_process_command_scope_visitor() {
       printf "${RED}Command not found${NC} - no \'$COMMAND\' in \'$STACK\'\n"
       ;;
     *)
-      echo "Invalid Event:$ARG $@"
+      echo "Invalid Event:$EVENT $@"
       ;;
   esac
 }

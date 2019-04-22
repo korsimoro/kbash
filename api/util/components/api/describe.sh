@@ -2,6 +2,10 @@
 function oneline_help_ENTRYPOINT_describe() {
   echo "Describe information about this build env"
 }
+function cmdline_help_ENTRYPOINT_describe() {
+  echo "[COMPONENT]"
+}
+export -f cmdline_help_ENTRYPOINT_describe
 
 function help_ENTRYPOINT_describe() {
   ENTRYPOINT_print_component_help describe

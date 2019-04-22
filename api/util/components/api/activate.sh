@@ -1,27 +1,34 @@
 #!/bin/bash
 function oneline_help_ENTRYPOINT_activate() {
-  echo "Configure shell to match build for [C]"
+  echo "Configure shell to match build environment for [COMPONENT]"
 }
+export -f oneline_help_ENTRYPOINT_activate
+
+function cmdline_help_ENTRYPOINT_activate() {
+  echo "[COMPONENT]"
+}
+export -f cmdline_help_ENTRYPOINT_activate
 
 function help_ENTRYPOINT_activate() {
   print_component_help activate
 }
+export -f help_ENTRYPOINT_activate
 
 function run_ENTRYPOINT_activate() {
-  local ENV=$(slugify $1)
+  local COMPONENT=$(slugify $1)
 
   if ENTRYPOINT_run_component_func activate $@; then
 
-    echo "Activated $ENV"
-    echo "   - ran activate_environment_$ENV"
-    echo "   - setting VAR_PREFIX_ACTIVE_DEVENV"
-    VAR_PREFIX_ACTIVE_DEVENV=$ENV
+    echo "Activated $COMPONENT"
+    echo "   - ran activate_environment_$COMPONENT"
+    echo "   - setting VAR_PREFIX_ACTIVE_DEVCOMPONENT"
+    VAR_PREFIX_ACTIVE_DEVCOMPONENT=$COMPONENT
     echo "   - adjusting prompt"
     ENTRYPOINT_reprompt
     echo "   - cd into environment home"
-    ENTRYPOINT cd $ENV
-    describe_environment_ENTRYPOINT_$ENV
+    ENTRYPOINT cd $COMPONENT
+    describe_environment_ENTRYPOINT_$COMPONENT
   fi
 
 }
-export -f run_ENTRYPOINT_activate help_ENTRYPOINT_activate oneline_help_ENTRYPOINT_activate
+export -f run_ENTRYPOINT_activate

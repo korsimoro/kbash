@@ -5,6 +5,10 @@ function oneline_help_ENTRYPOINT_setup() {
 function help_ENTRYPOINT_setup() {
   print_component_help setup
 }
+function cmdline_help_ENTRYPOINT_setup() {
+  echo "[COMPONENT]"
+}
+export -f cmdline_help_ENTRYPOINT_setup
 
 function run_ENTRYPOINT_setup() {
   local ENV=$(slugify $1)

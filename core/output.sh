@@ -56,7 +56,7 @@ export -f report_subheading
 
 # utilities for printing information
 report_pair() {
-  local WIDTH=15
+  local WIDTH=25
   local VAR=$1
   local VALUE=$2
   local MIDDLE=$3
@@ -71,11 +71,10 @@ report_var_value() {
 export -f report_var_value
 
 report_vars() {
-  local WIDTH=15
-  MESSAGE=$1
+  MESSAGE="$1"
   shift 1
 
-  report_subheading $MESSAGE
+  report_subheading "$MESSAGE"
   for x in "$@"; do
     report_var_value "$x" "$(eval "echo \"\$$x\"")" "="
   done;

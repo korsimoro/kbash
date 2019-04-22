@@ -3,6 +3,12 @@
 function oneline_help_ENTRYPOINT_kbash_env() {
   echo "Display current environment settings."
 }
+export -f oneline_help_ENTRYPOINT_kbash_env
+
+function cmdline_help_ENTRYPOINT_kbash_env() {
+  echo ""
+}
+export -f cmdline_help_ENTRYPOINT_kbash_env
 
 function help_ENTRYPOINT_kbash_env() {
 printf "`cat << EOF
@@ -11,22 +17,35 @@ ${BLUE}ENTRYPOINT env${NC}
 EOF
 `\n"
 }
+export -f help_ENTRYPOINT_kbash_env
 
 function run_ENTRYPOINT_kbash_env() {
-  report_vars "Environment Settings" \
+
+  report_vars "KBASH Settings" \
+    KBASH\
+    KBASH_CORE\
+    KBASH_LANG\
+    KBASH_API\
+    KBASH_API_COMMAND_DIR\
+    KBASH_API_FUNCTION_DIR\
+    KBASH_API_UTIL_DIR
+
+  report_vars "ENTRYPOINT Settings (VP=VAR_PREFIX)" \
     VAR_PREFIX \
     VAR_PREFIX_KBASH \
-    VAR_PREFIX_KBASH_UTIL \
+    VAR_PREFIX_KBASH_LOGS \
     VAR_PREFIX_KBASH_COMMAND \
     VAR_PREFIX_KBASH_FUNCTION \
-    VAR_PREFIX_SCRIPTS \
-    VAR_PREFIX_FILES \
-    VAR_PREFIX_LOGS \
-    VAR_PREFIX_FUNCTION_LIST \
     VAR_PREFIX_COMPONENT_LIST \
-    VAR_PREFIX_COMPONENT_DIR \
+    VAR_PREFIX_COMPONENT_DIR
 
-  report_environment
-
+  if [ -z "$KBASH_LANGUAGE_LIST" ]; then
+    echo "No languages configured"
+  else
+    echo "Languages"
+    for LANG in $KBASH_LANGUAGE_LIST; do
+      report_${LANG}_env $VAR_PREFIX
+    done
+  fi
 }
-export -f run_ENTRYPOINT_kbash_env help_ENTRYPOINT_kbash_env oneline_help_ENTRYPOINT_kbash_env
+export -f run_ENTRYPOINT_kbash_env

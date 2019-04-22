@@ -14,7 +14,7 @@ ENTRYPOINT_load_components() {
   done
 
   if [ ! -z "$VAR_PREFIX_COMPONENT_LIST" ]; then
-    kbash_load_functions_from_dir "ENTRYPOINT" "VAR_PREFIX" "$KBASH_UTIL/components/api"
+    kbash_load_functions_from_dir "ENTRYPOINT" "VAR_PREFIX" "$KBASH_API_UTIL_DIR/components/api"
   fi
 
 }
