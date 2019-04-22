@@ -8,7 +8,7 @@ USER_UTIL_LOAD_LIST=$3
 LANG_LOAD_LIST=$4
 
 # establish the base directory of the core...
-export KBASH=$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )
+export KBASH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 export KBASH_CORE=$KBASH/core
 export KBASH_LANG=$KBASH/lang
 
