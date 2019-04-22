@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Manual - KBash</title>
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="..">KBash</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="..">Home</a>
+                            </li>
+                            <li >
+                                <a href="../ops/">Operations</a>
+                            </li>
+                            <li >
+                                <a href="../layout/">Layout</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">API <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../api/intro/">Intro</a>
+</li>
+                                    
+<li >
+    <a href="../api/commands/">Commands</a>
+</li>
+                                    
+<li >
+    <a href="../api/functions/">Functions</a>
+</li>
+                                    
+<li >
+    <a href="../api/util/">Util</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../example-outputs/">Output</a>
+</li>
+                                    
+<li class="active">
+    <a href="./">Manual</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="../example-outputs/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="disabled">
+                                <a rel="prev" >
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#kx">kx</a></li>
+        <li class="main "><a href="#functions">Functions</a></li>
+            <li><a href="#add-command">add-command</a></li>
+            <li><a href="#add-component">add-component</a></li>
+            <li><a href="#add-function">add-function</a></li>
+            <li><a href="#cd">cd</a></li>
+            <li><a href="#kbash-env">kbash-env</a></li>
+            <li><a href="#kbash-troff">kbash-troff</a></li>
+            <li><a href="#kbash-tron">kbash-tron</a></li>
+            <li><a href="#parallel">parallel</a></li>
+            <li><a href="#reset">reset</a></li>
+            <li><a href="#troff">troff</a></li>
+            <li><a href="#tron">tron</a></li>
+        <li class="main "><a href="#commands">Commands</a></li>
+            <li><a href="#about">about</a></li>
+            <li><a href="#component-list">component-list</a></li>
+            <li><a href="#klang">klang</a></li>
+            <li><a href="#manual">manual</a></li>
+        <li class="main "><a href="#about_1">About</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="kx">kx</h1>
+<pre><code class="shell">kx [COMMAND] [help|--help|-help|-h|?] ... 
+
+kx is a bash environment supporting development.
+
+Functions (modify the current shell)
+ add-command                Add a function.
+ add-component              cd home, or into /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/[C].
+ add-function               Add a function.
+ cd                         cd /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/[PATH] (or base w/o arg)
+ kbash-env                  Display current environment settings.
+ kbash-troff                disable KBASH_TRACE
+ kbash-tron                 set KBASH_TRACE to trace KBASH internals
+ parallel                   Control how many jobs run in parallel.
+ reset                      Reload the environment.
+ troff                      Stop bash execution trace.
+ tron                       Start bash execution trace.
+
+
+Commands (run as subprocesses)
+ about                      Detailed Information about KBASH
+ component-list             Just fetch updates
+ klang                      Manage KBASH top level languages
+ manual                     Generate help manual
+
+No components configured, use kx add-component to add components.
+
+Use kx [FUNCTION|COMMAND|COMPONENT] help for more information.
+</code></pre>
+
+<h1 id="functions">Functions</h1>
+<p>Functions manipulate the local shell variables, unlike commands, which are
+executed by the shell as a subprocess.</p>
+<h2 id="add-command"><code>add-command</code></h2>
+<pre><code class="shell">
+kx add_command [help|--help|-help|-h|?] COMMAND_NAME
+
+Add a function.
+
+&lt;&lt;DETAILED INFORMATION ABOUT add_command&gt;&gt;
+</code></pre>
+
+<h2 id="add-component"><code>add-component</code></h2>
+<pre><code class="shell">
+kx add_component [help|--help|-help|-h|?] [COMPONENT]
+
+cd home, or into /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/[C].
+
+kx component-new [component-name] [component-var-prefix]
+</code></pre>
+
+<h2 id="add-function"><code>add-function</code></h2>
+<pre><code class="shell">
+kx add_function [help|--help|-help|-h|?] FUNCTION_NAME
+
+Add a function.
+
+&lt;&lt;DETAILED INFORMATION ABOUT add_function&gt;&gt;
+</code></pre>
+
+<h2 id="cd"><code>cd</code></h2>
+<pre><code class="shell">
+kx cd [help|--help|-help|-h|?] [PATH]
+
+cd /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/[PATH] (or base w/o arg)
+
+This is a shell function, which execute cd as follows:
+  cd /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/[PATH].
+
+If no PATH is provided, this just cds into
+  cd /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx
+</code></pre>
+
+<h2 id="kbash-env"><code>kbash-env</code></h2>
+<pre><code class="shell">
+kx kbash_env [help|--help|-help|-h|?] 
+
+Display current environment settings.
+
+kx env
+</code></pre>
+
+<h2 id="kbash-troff"><code>kbash-troff</code></h2>
+<pre><code class="shell">
+kx kbash_troff [help|--help|-help|-h|?] 
+
+disable KBASH_TRACE
+
+This is equivalent to
+  export KBASH_TRACE=false
+</code></pre>
+
+<h2 id="kbash-tron"><code>kbash-tron</code></h2>
+<pre><code class="shell">
+kx kbash_tron [help|--help|-help|-h|?] 
+
+set KBASH_TRACE to trace KBASH internals
+
+This is equivalent to
+  export KBASH_TRACE=true
+</code></pre>
+
+<h2 id="parallel"><code>parallel</code></h2>
+<pre><code class="shell">
+kx parallel [help|--help|-help|-h|?] MAXJOBS
+
+Control how many jobs run in parallel.
+
+
+Control how many jobs run in parallel
+</code></pre>
+
+<h2 id="reset"><code>reset</code></h2>
+<pre><code class="shell">
+kx reset [help|--help|-help|-h|?] 
+
+Reload the environment.
+
+In this shell, execute:
+  /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/activate.sh
+
+This will cause the entire kx runtime to be reloaded,
+so any changes to functions or commands will be processed.
+
+This will update the activation count from 0 to 1
+</code></pre>
+
+<h2 id="troff"><code>troff</code></h2>
+<pre><code class="shell">
+kx troff [help|--help|-help|-h|?] 
+
+Stop bash execution trace.
+
+Equivalent to
+  set +x
+</code></pre>
+
+<h2 id="tron"><code>tron</code></h2>
+<pre><code class="shell">
+kx tron [help|--help|-help|-h|?] 
+
+Start bash execution trace.
+
+Equivalent to
+  set -x
+</code></pre>
+
+<h1 id="commands">Commands</h1>
+<h3 id="about"><code>about</code></h3>
+<pre><code class="shell">kx &lt;command&gt; [help]
+
+kx is a bash environment supporting development.
+
+kx is pure anti-pattern, in includes
+ - 'within-environment' mutations- bash functions allow forward mutation of the
+   active environment, with no guarantees of any stable state, save the single
+   application of this function after a clean reset
+ - pure 'side-effect' focus.  This is an attempt to identify mutators to the
+   filesystem, and to codify them.  All functions and commands in the
+   environment are expected to operate upon the filesystem directly.  git
+   provides us exceptional visiblity into changes over the active checkout.
+
+kx supports the development of ad-hoc tasks required
+to effectively build a complex, multi-project system.
+
+As knowledge is captured w/in the kx script system, it is added
+into the compiled node or python build support tools.  But when you have to
+adapt to an existing culture, as in a fork, you need a little grease.  The
+node and python knowledge is the organized grease to glue a complete system
+onto a consistent base.
+
+kx uses a &quot;Convention over Configuration&quot; and heavily seeds a
+bash operating environment with functions and variables, supporting
+multi-tech integration projects.  The ability to &quot;regenerate&quot; the environment
+from the kx reset command means that scripts can be rapidly
+edited and applied - recorded in a pull-request, and the collective wisdom
+knitting forward.
+
+kx can be rapidly and ad-hoc adjusted, and it is specific to
+this repository.  The bashenv orchestrates the connection of the environment
+with a conversational mutator - a live bash shell.  As this is bound to a
+repository top, the space underneath is managed - so this is effectively a
+bash shell over a commit-trail of reference.
+
+kx is scoped by directory (or checkout) - based on the KXX
+variable.
+  KXX = /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx
+
+For more information, check out this file:
+/home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/docs/bashenv.md
+
+In general use kx [cmd] help for more information.
+</code></pre>
+
+<h3 id="component-list"><code>component-list</code></h3>
+<pre><code class="shell">Show component list
+</code></pre>
+
+<h3 id="klang"><code>klang</code></h3>
+<pre><code class="shell">kx [LANG] ....
+
+Manage languages
+
+Commands (run as subprocesses)
+ node                       System Node
+ python                     System Node
+ ruby                       System Node
+</code></pre>
+
+<h4 id="node"><code>node</code></h4>
+<pre><code class="shell">kx node [LANG] ....
+
+Manage Local Node
+</code></pre>
+
+<h4 id="python"><code>python</code></h4>
+<pre><code class="shell">kx python [LANG] ....
+
+Manage Local Python
+</code></pre>
+
+<h4 id="ruby"><code>ruby</code></h4>
+<pre><code class="shell">kx ruby [LANG] ....
+
+Manage Local Ruby
+</code></pre>
+
+<h3 id="manual"><code>manual</code></h3>
+<pre><code class="shell">Recursively assembleup documentation as a markdown
+file.
+</code></pre>
+
+<h1 id="about_1">About</h1>
+<pre><code class="shell">kx &lt;command&gt; [help]
+
+kx is a bash environment supporting development.
+
+kx is pure anti-pattern, in includes
+ - 'within-environment' mutations- bash functions allow forward mutation of the
+   active environment, with no guarantees of any stable state, save the single
+   application of this function after a clean reset
+ - pure 'side-effect' focus.  This is an attempt to identify mutators to the
+   filesystem, and to codify them.  All functions and commands in the
+   environment are expected to operate upon the filesystem directly.  git
+   provides us exceptional visiblity into changes over the active checkout.
+
+kx supports the development of ad-hoc tasks required
+to effectively build a complex, multi-project system.
+
+As knowledge is captured w/in the kx script system, it is added
+into the compiled node or python build support tools.  But when you have to
+adapt to an existing culture, as in a fork, you need a little grease.  The
+node and python knowledge is the organized grease to glue a complete system
+onto a consistent base.
+
+kx uses a &quot;Convention over Configuration&quot; and heavily seeds a
+bash operating environment with functions and variables, supporting
+multi-tech integration projects.  The ability to &quot;regenerate&quot; the environment
+from the kx reset command means that scripts can be rapidly
+edited and applied - recorded in a pull-request, and the collective wisdom
+knitting forward.
+
+kx can be rapidly and ad-hoc adjusted, and it is specific to
+this repository.  The bashenv orchestrates the connection of the environment
+with a conversational mutator - a live bash shell.  As this is bound to a
+repository top, the space underneath is managed - so this is effectively a
+bash shell over a commit-trail of reference.
+
+kx is scoped by directory (or checkout) - based on the KXX
+variable.
+  KXX = /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx
+
+For more information, check out this file:
+/home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/docs/bashenv.md
+
+In general use kx [cmd] help for more information.
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
