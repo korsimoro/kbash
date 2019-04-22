@@ -8,9 +8,9 @@ kx is a bash environment supporting development.
 
 Functions (modify the current shell)
  add-command                Add a function.
- add-component              cd home, or into /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/[C].
+ add-component              cd home, or into /home/circleci/repo/test/testdir/kx/[C].
  add-function               Add a function.
- cd                         cd /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/[PATH] (or base w/o arg)
+ cd                         cd /home/circleci/repo/test/testdir/kx/[PATH] (or base w/o arg)
  kbash-env                  Display current environment settings.
  kbash-troff                disable KBASH_TRACE
  kbash-tron                 set KBASH_TRACE to trace KBASH internals
@@ -21,10 +21,10 @@ Functions (modify the current shell)
 
 
 Commands (run as subprocesses)
- about                      Detailed Information about KBASH
- component-list             Just fetch updates
- klang                      Manage KBASH top level languages
- manual                     Generate help manual
+ about                      
+ component-list             
+ klang                      
+ manual                     
 
 No components configured, use kx add-component to add components.
 
@@ -54,7 +54,7 @@ Add a function.
 
 kx add_component [help|--help|-help|-h|?] [COMPONENT]
 
-cd home, or into /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/[C].
+cd home, or into /home/circleci/repo/test/testdir/kx/[C].
 
 kx component-new [component-name] [component-var-prefix]
 ```
@@ -78,13 +78,13 @@ Add a function.
 
 kx cd [help|--help|-help|-h|?] [PATH]
 
-cd /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/[PATH] (or base w/o arg)
+cd /home/circleci/repo/test/testdir/kx/[PATH] (or base w/o arg)
 
 This is a shell function, which execute cd as follows:
-  cd /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/[PATH].
+  cd /home/circleci/repo/test/testdir/kx/[PATH].
 
 If no PATH is provided, this just cds into
-  cd /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx
+  cd /home/circleci/repo/test/testdir/kx
 ```
 
 
@@ -148,7 +148,7 @@ kx reset [help|--help|-help|-h|?]
 Reload the environment.
 
 In this shell, execute:
-  /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/activate.sh
+  /home/circleci/repo/test/testdir/kx/activate.sh
 
 This will cause the entire kx runtime to be reloaded,
 so any changes to functions or commands will be processed.
@@ -226,10 +226,10 @@ bash shell over a commit-trail of reference.
 
 kx is scoped by directory (or checkout) - based on the KXX
 variable.
-  KXX = /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx
+  KXX = /home/circleci/repo/test/testdir/kx
 
 For more information, check out this file:
-/home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/docs/bashenv.md
+/home/circleci/repo/test/testdir/kx/docs/bashenv.md
 
 In general use kx [cmd] help for more information.
 ```
@@ -248,9 +248,9 @@ kx [LANG] ....
 Manage languages
 
 Commands (run as subprocesses)
- node                       System Node
- python                     System Node
- ruby                       System Node
+ node                       
+ python                     
+ ruby                       
 ```
 
 #### ```node```
@@ -325,10 +325,10 @@ bash shell over a commit-trail of reference.
 
 kx is scoped by directory (or checkout) - based on the KXX
 variable.
-  KXX = /home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx
+  KXX = /home/circleci/repo/test/testdir/kx
 
 For more information, check out this file:
-/home/ewelton/Desktop/korsimoro/utilities/kbash/test/testdir/kx/docs/bashenv.md
+/home/circleci/repo/test/testdir/kx/docs/bashenv.md
 
 In general use kx [cmd] help for more information.
 ```
