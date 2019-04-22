@@ -7,6 +7,6 @@ DEST=$TEST_BASE/testdir/$ENTRYPOINT
 
 rm -rf $DEST
 mkdir -p $DEST
-$TEST_BASE/setup.sh $ENTRYPOINT $VAR_PREFIX $DEST
+$TEST_BASE/../setup.sh $ENTRYPOINT $VAR_PREFIX $DEST
 
 exec $DEST/kbash/shell.sh "$@"
