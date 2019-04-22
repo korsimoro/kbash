@@ -23,6 +23,11 @@ jobs:
       - run:
           name: build docs
           command: |
+            ./test/sanity.sh
+
+      - run:
+          name: build docs
+          command: |
             ./mkdocs/build.sh
 
       - run:

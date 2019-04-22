@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export SYSTEM_PYTHON3=$(command -v python3)
-export SYSTEM_VIRTUALENV=$(command -v virtualenv)
+export KBASH_PYTHON3=$(command -v python3)
+export KBASH_VIRTUALENV=$(command -v virtualenv)
 
 create_python3_env() {
   local TARGET=$1
@@ -11,9 +11,9 @@ create_python3_env() {
   else
     echo "#--------------------- Creating Python Venv (start)"
     echo "#"
-    echo "python interpreter = ${SYSTEM_PYTHON3}"
+    echo "python interpreter = ${KBASH_PYTHON3}"
     echo "venv installation @ $TARGET"
-    if ! ${SYSTEM_VIRTUALENV} -p ${SYSTEM_PYTHON3} $1 > /dev/null; then
+    if ! ${KBASH_VIRTUALENV} -p ${KBASH_PYTHON3} $1 > /dev/null; then
       report_error "Failed to create python3 environment in $TARGET"
       false
     else
@@ -43,11 +43,11 @@ ensure_active_python3_env() {
 export -f ensure_active_python3_env
 
 check_basic_python_ability() (
-  if [ "${SYSTEM_PYTHON3}" = "" ]; then
+  if [ "${KBASH_PYTHON3}" = "" ]; then
           echo "Missing python3"
           exit -1;
   fi
-  if [ "${SYSTEM_VIRTUALENV}" = "" ]; then
+  if [ "${KBASH_VIRTUALENV}" = "" ]; then
           echo "Missing virtualenv"
           exit -1;
   fi
