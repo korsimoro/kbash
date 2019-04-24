@@ -44,7 +44,8 @@ function run_ENTRYPOINT_add_function() {
 
   local PFX=PREFIX
   local VP="VAR_${PFX}"
-  local SP="SHELL_${PFX}"
+  local PT=POINT
+  local SP="ENTRY${PT}"
   cat $KSETUP \
       | sed s/$VP/VAR_PREFIX/g \
       | sed s/$SP/ENTRYPOINT/g \

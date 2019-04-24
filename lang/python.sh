@@ -33,6 +33,7 @@ report_python_env() {
     report_warning "  venv does not exist at $VENV"
   fi
 }
+
 ensure_active_python3_env() {
   if create_python3_env $1; then
     activate_python_env $1
@@ -47,12 +48,9 @@ check_basic_python_ability() (
           echo "Missing python3"
           exit -1;
   fi
-  if [ "${KBASH_VIRTUALENV}" = "" ]; then
-          echo "Missing virtualenv"
-          exit -1;
-  fi
   exit 0;
 )
+export -f check_basic_python_ability
 
 default_python_setup() (
   local BASE=$1
@@ -96,7 +94,7 @@ default_python_setup() (
     true
   fi
 )
-
+export -f check_basic_python_ability
 
 activate_python_env() {
   local VENV=$1
@@ -110,4 +108,4 @@ activate_python_env() {
     fi
   fi
 }
-export -f check_basic_python_ability create_python3_env activate_python_env
+export -f activate_python_env

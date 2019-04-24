@@ -41,7 +41,7 @@ function run_ENTRYPOINT_reset() {
       printf "Do not understand arguments '$@'\n"
     fi
   else
-    export PATH=$VAR_PREFIX_ORIGINAL_PATH
+    export PATH=$KBASH_ORIGINAL_PATH
     . $VAR_PREFIX_KBASH/activate.sh
   fi
 }

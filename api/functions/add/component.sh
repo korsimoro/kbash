@@ -70,9 +70,11 @@ function run_ENTRYPOINT_add_component() {
   cp -r $KSETUP/* $TARGET
   local PFX=PREFIX
   local VP="VAR_${PFX}"
-  local SP="SHELL_${PFX}"
-  for FILE in $(find_dot_sh $KSETUP); do
-    echo "Setting up $TARGET/$FILE"
+  local PT=POINT
+  local SP="ENTRY${PT}"
+  for FILE in $(cd $KSETUP && find . -type f ); do
+    #echo "Setting up $SP=ENTRYPOINT/$VP=VAR_PREFIX = $TARGET/$FILE"
+    echo "Setting up (ENTRYPOINT/VAR_PREFIX) file $TARGET/$FILE"
     cat $KSETUP/$FILE \
         | sed s/$VP/VAR_PREFIX/g \
         | sed s/$SP/ENTRYPOINT/g \

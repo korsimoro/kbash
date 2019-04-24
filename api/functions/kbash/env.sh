@@ -20,6 +20,17 @@ EOF
 export -f help_ENTRYPOINT_kbash_env
 
 function run_ENTRYPOINT_kbash_env() {
+  report_heading "KBash Core Settings"
+
+  if is_osx; then
+    report_ok "OSX Detected"
+  fi
+  if is_windows; then
+    report_ok "Windows Detected"
+  fi
+  if is_linux; then
+    report_ok "Linux Detected"
+  fi
 
   report_vars "KBASH Settings" \
     KBASH\
@@ -30,12 +41,14 @@ function run_ENTRYPOINT_kbash_env() {
     KBASH_API_FUNCTION_DIR\
     KBASH_API_UTIL_DIR
 
+
   report_vars "ENTRYPOINT Settings (VP=VAR_PREFIX)" \
     VAR_PREFIX \
     VAR_PREFIX_KBASH \
     VAR_PREFIX_KBASH_LOGS \
     VAR_PREFIX_KBASH_COMMAND \
     VAR_PREFIX_KBASH_FUNCTION \
+    VAR_PREFIX_FUNCTION_LIST \
     VAR_PREFIX_COMPONENT_LIST \
     VAR_PREFIX_COMPONENT_DIR
 

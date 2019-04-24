@@ -21,6 +21,10 @@ is_osx() {
   [ ! -z "$(uname -a | grep Darwin)" ]
 }
 export -f is_osx
+is_linux() {
+	[ ! -z "$(uname -a | grep Linux)" ]
+}
+export -f is_linux
 
 kbash_trace() {
   if [ "true" = "$KBASH_TRACE" ]; then
