@@ -17,8 +17,8 @@ export -f help_ENTRYPOINT_activate
 function run_ENTRYPOINT_activate() {
   local COMPONENT=$(slugify $1)
   local CURPATH=$1
-
-  export PATH=$KBASH_ORIGINAL_PATH
+  
+  ENTRYPOINT deactivate
   if ENTRYPOINT_run_component_func activate $@; then
 
     echo "Activated $COMPONENT"
