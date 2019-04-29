@@ -20,6 +20,10 @@ export KBASH_API_FUNCTION_DIR=$KBASH_API/functions
 
 # set KBASH_ORIGINAL_PATH unless set
 export KBASH_ORIGINAL_PATH="${KBASH_ORIGINAL_PATH:-$PATH}"
+export KBASH_PYTHONPATH="${KBASH_PYTHONPATH:-$PYTHONPATH}"
+export KBASH_NODE_PATH="${KBASH_NODE_PATH:-$NODE_PATH}"
+export KBASH_rvm_path="${KBASH_rvm_path:-$rvm_path}"
+export KBASH_PS1="${KBASH_PS1:-$PS1}"
 
 # language configuration
 export KBASH_LANGUAGE_LIST=""
