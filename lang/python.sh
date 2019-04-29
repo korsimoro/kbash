@@ -1,58 +1,84 @@
 #!/bin/bash
 
 export KBASH_PYTHON3=$(command -v python3)
-export KBASH_VIRTUALENV=$(command -v virtualenv)
 
 create_python3_env() {
-  local TARGET=$1
-  if [ -d "$TARGET" ]; then
-    echo "Using virtual environment in $TARGET"
-    true
+
+  if [ -z "$1" ]; then
+    report_error "create_python3_env called w/o VENV-DIR"
+    echo "usage: create_python3_env [VENV-DIR]"
   else
-    echo "#--------------------- Creating Python Venv (start)"
-    echo "#"
-    echo "python interpreter = ${KBASH_PYTHON3}"
-    echo "venv installation @ $TARGET"
-    if ! ${KBASH_VIRTUALENV} -p ${KBASH_PYTHON3} $1 > /dev/null; then
-      report_error "Failed to create python3 environment in $TARGET"
-      false
-    else
-      echo "#--------------------- Creating Python Venv (end)"
-      true
+    if check_basic_python_ability; then
+      local TARGET=$1
+      if [ -d "$TARGET" ]; then
+        report_ok "Using virtual environment in $TARGET"
+        true
+      else
+        echo "#--------------------- Creating Python Venv (start)"
+        echo "#"
+        echo "python interpreter = ${KBASH_PYTHON3}"
+        echo "venv installation @ $TARGET"
+        echo "#"
+        if ! ${KBASH_PYTHON3} -m venv $TARGET > /dev/null; then
+          report_error "Failed to create python3 environment in $TARGET"
+          false
+        else
+          echo "#--------------------- Creating Python Venv (end)"
+          true
+        fi
+      fi
     fi
   fi
 }
 
 report_python_env() {
-  local VENV=$1
-  report_subheading "Python Virtual Environment"
-  if [ -d "$VENV" ]; then
-    report_ok "  python venv present"
-    echo "  PYTHON=$(command -v python)"
+  if [ -z "$1" ]; then
+    report_error "report_python_env called w/o TARGET"
+    echo "usage: report_python_env [VENV-DIR]"
   else
-    report_warning "  venv does not exist at $VENV"
+    local VENV=$1
+    report_subheading "Python Virtual Environment"
+    if [ -d "$VENV" ]; then
+      report_ok "  python venv present"
+      echo "  python=$(command -v python)"
+      report_vars "Python Environment Variables"
+    else
+      report_warning "  venv does not exist at $VENV"
+    fi
   fi
 }
 
+
 ensure_active_python3_env() {
-  if create_python3_env $1; then
-    activate_python_env $1
-  else
+  if [ -z "$1" ]; then
+    report_error "ensure_active_python3_env called w/o TARGET"
+    echo "usage: ensure_active_python3_env [VENV-DIR]"
     false
+  else
+    if check_basic_python_ability; then
+      if create_python3_env $1; then
+        activate_python_env $1
+      else
+        false
+      fi
+    else
+      false
+    fi
   fi
 }
 export -f ensure_active_python3_env
 
 check_basic_python_ability() (
   if [ "${KBASH_PYTHON3}" = "" ]; then
-          echo "Missing python3"
-          exit -1;
+      echo "Missing python3"
+      exit -1;
   fi
   exit 0;
 )
 export -f check_basic_python_ability
 
 default_python_setup() (
+
   local BASE=$1
   if [ -z "$BASE" ]; then
     error "default_python_setup called w/o BASE directory."
@@ -97,14 +123,18 @@ default_python_setup() (
 export -f check_basic_python_ability
 
 activate_python_env() {
-  local VENV=$1
-  if [ ! -d "$VENV" ]; then
-    report_error "Missing $VENV"
+  if [ -z "$1" ]; then
+    report_error "activate_python_env called w/o directory"
   else
-    if [ ! -f "$VENV/bin/activate" ]; then
-      report_error "Missing activation function $VENV/bin/activate"
+    local VENV=$1
+    if [ ! -d "$VENV" ]; then
+      report_error "Missing $VENV"
     else
-      . $VENV/bin/activate
+      if [ ! -f "$VENV/bin/activate" ]; then
+        report_error "Missing activation function $VENV/bin/activate"
+      else
+        . $VENV/bin/activate
+      fi
     fi
   fi
 }

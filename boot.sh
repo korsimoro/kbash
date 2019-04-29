@@ -17,7 +17,6 @@ export KBASH_LANG=$KBASH/lang
 export KBASH_API=$KBASH/api
 export KBASH_API_COMMAND_DIR=$KBASH_API/commands
 export KBASH_API_FUNCTION_DIR=$KBASH_API/functions
-export KBASH_API_UTIL_DIR=$KBASH_API/util
 
 # set KBASH_ORIGINAL_PATH unless set
 export KBASH_ORIGINAL_PATH="${KBASH_ORIGINAL_PATH:-$PATH}"
@@ -80,7 +79,7 @@ else
       "components/parallel";
     do
       kbash_trace loading-api-module "${API_MODULE}.sh"
-      kbash_shell_integrate "$ENTRYPOINT" "$VAR_PREFIX" "${KBASH_API_UTIL_DIR}/${API_MODULE}.sh"
+      kbash_shell_integrate "$ENTRYPOINT" "$VAR_PREFIX" "${KBASH_API}/${API_MODULE}.sh"
     done
 
     # load any standard system modules specified.  This is typically

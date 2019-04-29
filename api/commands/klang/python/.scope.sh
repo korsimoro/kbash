@@ -1,12 +1,12 @@
 #!/bin/bash
-# System Node
+# Manage python configuration
 
 ENTRYPOINT_scope_usage() {
-  echo "ENTRYPOINT python [LANG] ...."
+  echo "ENTRYPOINT klang python [LANG] ...."
 }
 ENTRYPOINT_scope_help() {
 printf "`cat << EOF
-Manage Local Python
+inspect the local python environment
 
 EOF
 `\n\n"
