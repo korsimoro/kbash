@@ -101,9 +101,9 @@ else
 
     # load the user environment from $PROJECT/bashenv.  This is typically
     # used to load support for concepts unique to $PROJECT.
-    for FUNCTION_FILE in $USER_LOAD_LIST; do
+    for FUNCTION_FILE in $USER_UTIL_LOAD_LIST; do
       kbash_trace load-project-util "${!BASHENV_VAR}/$FUNCTION_FILE"
-      kbash_shell_integrate "$ENTRYPOINT" "$VAR_PREFIX" "${!VAR_PREFIX}/util/$FUNCTION_FILE"
+      kbash_shell_integrate "$ENTRYPOINT" "$VAR_PREFIX" "${!VAR_PREFIX}/kbash/util/$FUNCTION_FILE"
     done
 
     kbash_trace loading-project-functions
