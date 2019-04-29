@@ -38,9 +38,7 @@ function run_ENTRYPOINT_kbash_env() {
     KBASH_LANG\
     KBASH_API\
     KBASH_API_COMMAND_DIR\
-    KBASH_API_FUNCTION_DIR\
-    KBASH_API_UTIL_DIR
-
+    KBASH_API_FUNCTION_DIR
 
   report_vars "ENTRYPOINT Settings (VP=VAR_PREFIX)" \
     VAR_PREFIX \
