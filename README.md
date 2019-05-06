@@ -1,77 +1,167 @@
+The ```kbash``` project add-on is a set of ```bash``` utilities supporting
+knowledge capture and orgnizing ad-hoc plumbing.  It is often useful in
+multi-component, multi-language software projects - especially if they use
+multiple build tools.
+
 # Quickstart
 
-## Proof of Concept
-
-This will verify that the system is operational by dropping you into a
-shell
+The following commands verify that the system is operational.
+This sets up a new environment, runs a shell inside it,
+runs the default documentation command, and then exits the shell.
 
 ```
 git clone git@github.com:korsimoro/kbash ~/.kbash
 ~/.kbash/test/sanity.sh
 ```
+[Click here for example output](example-outputs#sanity)
 
-[Example Output](example-outputs#sanity)
+# Bootstrap
 
-## Bootstrap
-
-This is how you bootstrap a new environment
-
+Applying ```kbash``` to an existing project is easy.  The following
+will add ```kbash``` support to your project.
 ```
 git clone git@github.com:korsimoro/kbash ~/.kbash
 ~/.kbash/setup.sh <ENTRYPOINT> <VARSCOPE> <DIRECTORY>
 <DIRECTORY>/shell.sh
 ```
 
+| Argument   | Example |Description                            |
+|------------|---------|---------------------------------------|
+| ENTRYPOINT | ```kb```| This is the name of the command introduced into the environment, and the prefix on all defined shell assets (functions, internal variables) |
+| VAR_PREFIX   |```KB```|This is the prefix attached to all public variables used to describe and control the environment. |
+| DIRECTORY  | ```$PROJECT/kbash```| This is the directory in which the new ```kbash``` environment is to be set up.  Canonically it is in the kbash directory of your project.  This directory exists *in addition to* the clone above. |
 
-| Argument   | Description                           |
-|------------|---------------------------------------|
-| ENTRYPOINT | This is the name of the command introduced into the environment, and the prefix on all defined shell assets (functions, internal variables) |
-| VARSCOPE   | This is the prefix attached to all public variables used to describe and control the environment |
-| DIRECTORY  | This is the directory in which the new ```kbash``` environment is to be set up |
+# What is ```kbash``` and how would I use it?
 
-## Troubleshooting
+Many software projects, such as an ```npm``` package, or a ```python```
+module, or a ```rust``` crate, or a ```ruby``` gem have sufficient support
+within the language environment for building and packaging code, for
+running tests, for linking documentation with the code base, etc.  However,
+in complex, multi-language, multi-component projects, coordinating the
+different build environments often requires bits and pieces of glue which
+do not fit well in the language specific build systems.
 
-# Terminology and Core Ideas
-
-## What is a ```$PROJECT```
-
-A project is a ```kbash``` environment coupled to a specific base
-directory, known internally as ```$VAR_PREFIX```, where the ```VAR_PREFIX```
-variable is the base of the ```$PROJECT```
-
-Keep in mind that ```VAR_PREFIX``` is not the name of the variable, rather
-it is the name of the name of the variable.  So, for example, in the ```kx```
-test project, ```KXX``` is the ```VAR_PREFIX``` and ```$KXX``` evaluates to
-the base of the ```kx``` project.
-
-## Commands and Functions
-
-## Utility files and Language Support
-
-## Components
-
-# Concept and Purpose
-
-The ```kbash``` environment may be useful when rapidly investigating
-and hacking around multiple projects across diverse technologies.  In
-such a context, it is often useful to write a one-off shell script that
-you expect to use once-or twice, but often wind up using for a while.
+The ```kbash``` environment provides a way to organize those bits of logic
+as a set of shell functions and files.  When rapidly investigating
+and hacking around multiple projects spanning diverse technology sets,
+it is often useful to write a one-off shell script that you expect to use
+once-or twice, but often wind up using for a while.
 
 The ```kbash``` environment is a Convention-based toolkit which organizes
 these one-off bits of knowledge, until such time as they can be integrated
-into the mainstream build environment (at which time the ```kbash```
-environment can be pruned.)
+into the mainstream build environments -  at which time the ```kbash```
+environment should be pruned. ```kbash``` should be a value-added utility
+for temporary hacky-information capture, not a solution in itself.
 
-The ```kbash``` environment aims to be the grease-in-the-gears, where
-accumulation of project-specific structure and knowledge should be
-continuously migrated out of the ```kbash``` environment.  ```kbash```
-should be a value-added utility, not a solution in itself.
+A final role of ```kbash``` is in capturing environmental integrity, sanity,
+and state checks.  This is exactly the sort of utility you hope you never
+need, but which can greatly improve the ability to troubleshoot broken
+environments.
 
-The ```kbash``` environment supports ```bash```ing code into behaviour,
-adapting to local conditions, and exploring what needs to be done to move
-projects to the next level - without hampering the developer with the need
-to *get the dev-env working* first.
+# Concepts
 
+## A Project
+
+A ```kbash``` project consists of
+- a ```kbash``` directory within the project
+- a checkout of the ```korsimoro/kbash``` common library, typically ```~/.kbash```
+
+The common library provides utility functions and scripts which are not
+related to any specific project.  All project specific data is located
+in the ```kbash``` project directory, typically at ```$PROJECT/kbash```
+
+## ```ENTRYPOINT``` command line tool
+
+Every project has a command line tool with subcommands, much like ```git```.
+Interestingly, ```kbash``` takes the form of a ```bash```
+function, which allows it to manipulate the ```current``` environment
+variables in cases when it is useful to do so, such as activating a
+python virtual environment, a node virtual environment, or some combination
+of environments (for example, a project using *both* a python venv *and*
+an nvm environment).
+
+## Commands vs. Functions
+
+A key distinction must be made between ```bash``` functions and commands.
+Commands are executed as subprocesses, like any other command - meaning that
+the environment of the executing child process is isolated from the running
+shell.  A subcommand can not, for example, change the current prompt.
+
+Functions, on the other hand, run within the current shell and as such they
+can modify the current environment.  This is exploited by many of the
+language specific virtual environment managers and modern ```bash``` provides
+a tremendous amount of support for such scripting.  On the other hand, with
+great power comes great responsibility - so every attempt is made to minimize
+the use of functions and limit their use to cases in which a modification of
+the environment is necessary.
+
+A common example of this distinction are ```cd``` and ```ls``` - ```cd``` is
+a bash-builtin which operates on the current environment, while ```ls``` is
+just a program that needs to be _in the PATH_.
+
+## Components
+
+A ```kbash``` project is usually made up of multiple parts which need to
+be coordinated, and often which have a common lifecycle.  For example, one
+project where ```kbash``` proved useful, used forks of two lerna-based
+monorepo typescript projects, two forks of python projects, one mixed
+python/typescript project, one project that built all of the above into
+an electron deliverable.  In this case, each project was modeled as a
+component.
+
+Declaring a component is done simply, using this form
+```
+ENTRYPOINT add-component [name] [var-prefix]
+```
+
+Which sets up the following structure - creating what needs to be created
+and using existing elements (like directories) if present:
+
+| What                                     | Description |
+|------------------------------------------|------------------------------------------------|
+| ```$PROJECT/kbash/components/[name]```   | The place for your component functions & commands |
+| ```ENTRYPOINT [name] ....```             | The cli hook |
+| ```$PROJECT/[name]```                    | The directory containing the component |
+| ```${var-prefix}_BASE```                 | Variable pointing to the ```$PROJECT/[name]``` directory |
+| other default variables                  | look in ```$PROJECT/kbash/components/[name]/describe.sh``` |
+| ```ENTRYPOINT [cfunc] [name]```          | see the table below |
+
+### Standard Component Lifecycle
+
+| Stage | Description |
+|-|-|
+| setup  |  This performs functions like ```npm install```, set up a python venv, install ruby gems, etc. |
+| clean  |  This erases anything installed in setup |
+| activate | This makes the environment constructed in setup the active environment |
+| describe | This provides information about the environment |
+| build | This triggers whatever is the standard build script for the component |
+
+These are not strongly required - and, in fact, they are simply bash functions
+that get called and which obey a standard naming convention.  The hope is that
+using ```add-component``` will pattern out a set of files, which can then be
+quickly edited, to capture the sort of information that is typically in the
+component's readme - for example, running ```npm install```.
+
+In the table below, imagine that we have a project called ```ex``` with
+a single component called ```comp1``` set up using:
+```
+~/.kbash/setup.sh ex EX /tmp/ex
+ex add-component comp1 COMP1
+```
+In this case, the following is set up
+
+| CLI | Function | Where Defined |
+|-|-|-|
+| ```ex build comp1```  |  ```build_environment_ex_comp1``` | $EX/kbash/components/comp1/build.sh |
+| ```ex activate comp1```  |  ```activate_environment_ex_comp1``` | $EX/kbash/components/comp1/activate.sh |
+| ```ex describe comp1```  |  ```describe_environment_ex_comp1``` | $EX/kbash/components/comp1/describe.sh |
+| ```ex clean comp1```  |  ```clean_environment_ex_comp1``` | $EX/kbash/components/comp1/clean.sh |
+| ```ex setup comp1```  |  ```setup_environment_ex_comp1``` | $EX/kbash/components/comp1/setup.sh |
+
+
+
+
+# Old Notes
 ## When to use
 
 - *project-discovery*
@@ -153,3 +243,30 @@ to *get the dev-env working* first.
 - *lerna-replacement*
 
   The ```kbash``` environment is not a ```lerna``` replacement
+
+
+## How to use ```kbash``` for a ```PROJECT```
+
+A project is a ```kbash``` environment coupled to a specific base
+directory, known internally as ```$VAR_PREFIX```, where the ```VAR_PREFIX```
+variable is the base of the ```$PROJECT```.
+
+
+
+Keep in mind that ```VAR_PREFIX``` is not the name of the variable, rather
+it is the name of the name of the variable.  So, for example, in the example
+above, the ```kb``` test project, the value of ```$KB``` will be the root
+of the project, and ```$KB/kbash``` will organize the specific bits of bash
+technology for the project.  In additional, all internal state variables
+will be prefixed by ```KB```
+
+test project, ```KXX``` is the ```VAR_PREFIX``` and ```$KXX``` evaluates to
+the base of the ```kx``` project.
+
+## Commands and Functions
+
+## Utility files and Language Support
+
+## Components
+
+# Concept and Purpose

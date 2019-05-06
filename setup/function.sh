@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 function oneline_help_ENTRYPOINT_FUNCTION() {
   echo "<<WHAT DOES FUNCTION DO?>>."
 }

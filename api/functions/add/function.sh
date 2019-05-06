@@ -14,7 +14,16 @@ export -f cmdline_help_ENTRYPOINT_add_function
 
 function help_ENTRYPOINT_add_function() {
 printf "`cat << EOF
-<<DETAILED INFORMATION ABOUT add_function>>
+This will create the file
+  ${GREEN}$VAR_PREFIX_KBASH_FUNCTION/[FUNCTION_NAME].sh${NC}
+if it does not exist.  You should then edit this file to implement.
+The template file used in creation is located at
+  ${GREEN}$KBASH/setup/function.sh${NC}
+You will want to edit the 4 function stubs
+ 1. oneline_help_ENTRYPOINT_[FUNCTION_NAME]
+ 2. cmdline_help_ENTRYPOINT_[FUNCTION_NAME]
+ 3. help_ENTRYPOINT_[FUNCTION_NAME]
+ 4. run_ENTRYPOINT_[FUNCTION_NAME]
 EOF
 `\n"
 }

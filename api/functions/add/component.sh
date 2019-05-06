@@ -1,19 +1,18 @@
 #!/bin/bash
 
 function oneline_help_ENTRYPOINT_add_component() {
-  echo "cd home, or into $VAR_PREFIX/[C]."
+  echo "Add a new component"
 }
 export -f oneline_help_ENTRYPOINT_add_component
 
 function cmdline_help_ENTRYPOINT_add_component() {
-  echo "[COMPONENT]"
+  echo "[COMPONENT] [VAR_PREFIX]"
 }
 export -f cmdline_help_ENTRYPOINT_add_component
 
 function help_ENTRYPOINT_add_component() {
 printf "`cat << EOF
-${BLUE}ENTRYPOINT component-new [component-name] [component-var-prefix]${NC}
-
+This will set up a component.
 
 EOF
 `\n\n"
