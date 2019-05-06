@@ -1,7 +1,15 @@
 #!/bin/bash
-
+#
+#
 export KBASH_PYTHON3=$(command -v python3)
 
+#
+#
+#
+#
+#
+#
+#
 create_python3_env() {
 
   if [ -z "$1" ]; then
@@ -48,16 +56,22 @@ report_python_env() {
   fi
 }
 
-
+#
+#
+#  ensure_active_python3_env, pointing at a
+#
+#
 ensure_active_python3_env() {
-  if [ -z "$1" ]; then
+  local VENV_DIR=$1
+
+  if [ -z "$VENV_DIR" ]; then
     report_error "ensure_active_python3_env called w/o TARGET"
     echo "usage: ensure_active_python3_env [VENV-DIR]"
     false
   else
     if check_basic_python_ability; then
-      if create_python3_env $1; then
-        activate_python_env $1
+      if create_python3_env $VENV_DIR; then
+        activate_python_env $VENV_DIR
       else
         false
       fi
