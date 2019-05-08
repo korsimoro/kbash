@@ -40,7 +40,7 @@ function run_ENTRYPOINT_kbash_env() {
     KBASH_API_COMMAND_DIR\
     KBASH_API_FUNCTION_DIR
 
-  report_vars "ENTRYPOINT Settings (VP=VAR_PREFIX)" \
+  report_vars "ENTRYPOINT Settings" \
     VAR_PREFIX \
     VAR_PREFIX_KBASH \
     VAR_PREFIX_KBASH_LOGS \

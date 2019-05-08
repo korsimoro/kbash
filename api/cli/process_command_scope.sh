@@ -29,7 +29,7 @@ ENTRYPOINT_process_command_scope() (
   # and if only help was asked or if there was no command,
   # then print the locally loaded scope help and exit
   if is_help_option_or_empty "$COMMAND_TO_FIND"; then
-    $VISITOR "$STARTING_IN_DIR" print-scope-help $0
+    $VISITOR "$STARTING_IN_DIR" print-scope-help "$REPORT_MESSAGE"
     exit 0
   else
     # we know that COMMAND_TO_FIND

@@ -97,30 +97,31 @@ default_python_setup() (
   if [ -z "$BASE" ]; then
     error "default_python_setup called w/o BASE directory."
   fi
+  cd $BASE
+
+
+  local LOGDIR=$BASE/setup-logs
+  local SETUP_LOG=$(ensure_empty_dir $LOGDIR)
+  report_heading "kbash/python default_python_setup, trace is in $SETUP_LOG"
+  date > $SETUP_LOG/start-timestamp.txt
 
   local VENV=$BASE/venv
-  if ensure_active_python3_env $VENV; then
-	  cd $BASE
-    local LOGDIR=$BASE/setup-logs
-    local SETUP_LOG=$(ensure_empty_dir $LOGDIR)
+  if ensure_active_python3_env $VENV >>$SETUP_LOG/ensure_active_python3_env.txt ; then
 
-    date > $SETUP_LOG/start-timestamp.txt
-    report_heading "Starting installation, trace is in $SETUP_LOG"
-
-    report_progress "Installing from setup.py first"
+    report_progress "default_python_setup" "Installing from setup.py first"
     if ! pip install . > $SETUP_LOG/main.txt; then
       cat $SETUP_LOG/main.txt
       error "Failed to install tool with 'pip install .', see trace above"
     fi
 
-    report_progress "Installing development requirements"
+    report_progress "default_python_setup" "Installing development requirements"
     if ! pip install -e .[dev] > $SETUP_LOG/dev.txt; then
       cat $SETUP_LOG/dev.txt
       error "Failed to install tool with 'pip install -e .[dev]', see trace above"
     fi
 
     if [ -f local-requirements.txt ]; then
-      report_progress "Installing local packages (relative links) "
+      report_progress "default_python_setup" "Installing local packages (relative links) "
       if ! pip install -r local-requirements.txt > $SETUP_LOG/local.txt; then
         cat $SETUP_LOG/local.txt
         error "Failed to install tool with 'pip install -r local-requirements.txt', see trace above"

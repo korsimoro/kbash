@@ -6,7 +6,7 @@ ENTRYPOINT_run_component_func() {
   local COMPONENT=$(slugify $1)
 
   if ENTRYPOINT_help_on_empty_or_help $FUNC "$COMPONENT"; then
-    clear
+    #clear
     local CMD=""$FUNC"_environment_ENTRYPOINT_"$COMPONENT
     if vet_environment_ENTRYPOINT_$COMPONENT; then
     	if ! $CMD "$@"; then

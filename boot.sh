@@ -45,7 +45,9 @@ else
     for CORE_MODULE in \
         "output"\
         "fs"\
-        "lists"\
+        "lists/contains"\
+        "lists/sort_list"\
+        "lists/sorted_key_set"\
         "help"\
         "load_functions_from_dir"\
         "lang"\

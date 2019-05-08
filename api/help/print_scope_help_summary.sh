@@ -32,6 +32,9 @@ ENTRYPOINT_print_scope_help_summary() {
     fi
 
 
+    # map the KIDS and the SCOPES into a single variable, called
+    # VAR_PREFIX_COMMAND_LIST, which is an array of strings - this can be
+    # sorted, and this is how the commands and scopes are intermingled
     if [ ! -z "$KIDS" ]; then
       for KID in $KIDS; do
         local SCRIPT_FILE="$BASE/$KID.sh"
@@ -49,6 +52,7 @@ ENTRYPOINT_print_scope_help_summary() {
     fi
   done
 
+  # print the sorted list
   if [ ! -z "$(echo ${!VAR_PREFIX_COMMAND_LIST[@]})" ]; then
     printf "\nCommands (run as subprocesses)\n"
     for KEY in $(sorted_key_set $(for key in "${!VAR_PREFIX_COMMAND_LIST[@]}"; do echo "$key"; done)); do

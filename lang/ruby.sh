@@ -15,8 +15,10 @@ export -f report_python_env
 
 prepare_ruby() {
   local BASE=$1
+  local VERSION=$2  # currently unused
 	export RUBY_GEM_PATH=$BASE/.rubygems
 	export RUBY_BIN_PATH=$BASE/.rubybin
+  true
 }
 export -f prepare_ruby
 old_prepare_rvm_and_version() {

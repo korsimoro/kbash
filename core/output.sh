@@ -37,7 +37,6 @@ report_warning() {
 export -f report_warning
 
 report_progress() {
-  echo "TWO:"$2
   if [ -z "$2" ]; then
     printf "${BLUE}%s${NC}\n" "$@"
   else

@@ -9,7 +9,8 @@ ENTRYPOINT_process_command_scope_visitor() {
   shift 2
   case $EVENT in
     print-scope-help)
-      printf "${BOLD}${BLUE}$(ENTRYPOINT_scope_usage )${NC}\n\n"
+      local STACK=$(echo "$1" | cut -d'/' -f1  --complement)
+      printf "${BOLD}${BLUE}ENTRYPOINT ${STACK} $(ENTRYPOINT_scope_usage )${NC}\n\n"
       printf "$(ENTRYPOINT_scope_help $@)\n"
       ENTRYPOINT_print_scope_help_summary $BASE $@
       ;;
@@ -27,6 +28,7 @@ ENTRYPOINT_process_command_scope_visitor() {
         print_help "$@"
       else
         kbash_trace visitor-file-execution-requested "$FIRST_ARG $@"
+        set -e
         run $@
       fi
       ;;

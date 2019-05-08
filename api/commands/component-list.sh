@@ -1,5 +1,5 @@
 #!/bin/bash
-# Just fetch updates
+# List all available components
 
 print_help() {
 printf "`cat << EOF
