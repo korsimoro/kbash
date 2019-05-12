@@ -19,13 +19,14 @@ function run_ENTRYPOINT_setup() {
     done
   else
     if ENTRYPOINT_help_on_empty_or_help setup "$ENV"; then
-      clear
+      #clear
 
       if ENTRYPOINT_run_component_func setup $@; then
-        echo "Setup"
+        report_ok "Setup Copmplete"
+        true
       fi
     else
-      echo "use ENTRYPOINT setup all to setup all"
+      report_warning "setup all using: ${GREEN}ENTRYPOINT setup all${NC}"
     fi
   fi
 }

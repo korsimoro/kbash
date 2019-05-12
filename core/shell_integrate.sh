@@ -12,3 +12,4 @@ kbash_shell_integrate() {
     echo "Failed to load $INPUT while activating $VAR_PREFIX environment"
   fi
 }
+export -f kbash_shell_integrate

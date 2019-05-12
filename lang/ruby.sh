@@ -13,14 +13,62 @@ report_ruby_env() {
 }
 export -f report_python_env
 
-prepare_ruby() {
+
+default_ruby_setup() (
   local BASE=$1
-  local VERSION=$2  # currently unused
-	export RUBY_GEM_PATH=$BASE/.rubygems
-	export RUBY_BIN_PATH=$BASE/.rubybin
-  true
+  local VERSION=$2  # currently unused - but check versions here
+
+  local GEM_PATH=$BASE/.rubygems
+  local BIN_PATH=$BASE/.rubybin
+
+  local LOGDIR=$BASE/setup-logs
+  local SETUP_LOG=$(ensure_empty_dir $LOGDIR)
+  report_heading "kbash/python default_ruby_setup, trace is in $SETUP_LOG"
+  date > $SETUP_LOG/start-timestamp.txt
+
+  report_progress "install" "bundle install --path $GEM_PATH --binstubs $BIN_PATH"
+  if bundle install --path $GEM_PATH --binstubs $BIN_PATH > $SETUP_LOG/bundle-install.txt; then
+    date > $SETUP_LOG/end-timestamp.txt
+    report_ok "Gems installed"
+    true
+  else
+    date > $SETUP_LOG/end-timestamp.txt
+    report_error "Failed to install, trace in $SETUP_LOG/bundle-install.txt"
+    false
+  fi
+)
+export -f default_ruby_setup
+
+activate_ruby_env() {
+  local BASE=$1
+  local VERSION=$2  # currently unused - but check versions here
+
+  if [ -z "$BASE" ]; then
+    report_error "activate_ruby_env called w/o base directory (arg 1)"
+  else
+    if [ -z "$VERSION" ]; then
+      report_error "activate_ruby_env called w/o version (arg 2)"
+    else
+      report_progress "skipped" "Check version for $VERSION"
+      local GEM_PATH=$BASE/.rubygems
+	    local BIN_PATH=$BASE/.rubybin
+
+      if [ ! -d "$GEM_PATH" ]; then
+        report_warning "Missing $GEM_PATH, perhaps you need to run setup?"
+      fi
+      if [ ! -d "$BIN_PATH" ]; then
+        report_warning "Missing $BIN_PATH, perhaps you need to run setup?"
+      fi
+
+      export RUBY_GEM_PATH="$GEM_PATH"
+      export RUBY_BIN_PATH="$BIN_PATH"
+      true
+    fi
+  fi
 }
-export -f prepare_ruby
+export -f activate_ruby_env
+
+
 old_prepare_rvm_and_version() {
 	if type rvm >/dev/null 2>&1; then
 		echo "Using existing rvm"
