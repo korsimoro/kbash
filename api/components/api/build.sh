@@ -14,7 +14,7 @@ function run_ENTRYPOINT_build() {
   local ENV=$(slugify $1)
 
   if ENTRYPOINT_help_on_empty_or_help build "$ENV"; then
-    clear
+    #clear
 
     if ENTRYPOINT_run_component_func build $@; then
       echo "Built"
