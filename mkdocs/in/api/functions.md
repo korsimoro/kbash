@@ -1,1 +1,1 @@
-../../../setup/project/functions/README.md
+# these are loaded into the shell

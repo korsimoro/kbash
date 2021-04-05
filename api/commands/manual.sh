@@ -3,7 +3,7 @@
 
 print_help() {
 printf "`cat << EOF
-Recursively assembleup documentation as a markdown
+Recursively assemble documentation as a markdown
 file.
 EOF
 `\n\n"
@@ -74,6 +74,7 @@ print_scope_help_summary() (
 
 
 run() {
+
   export YELLOW=''
   export RED=''
   export BLUE=''
@@ -93,7 +94,7 @@ run() {
 
 ${STARTBLOCK}$(ENTRYPOINT )\n${ENDCODE}
 
-# Functions
+## Functions
 
 Functions manipulate the local shell variables, unlike commands, which are
 executed by the shell as a subprocess.
@@ -102,14 +103,17 @@ EOF
 `\n\n"
 
 for FUNC in $VAR_PREFIX_FUNCTION_LIST; do
-  printf "## ${STARTCODE}$(function_slug_to_dashes $FUNC)${ENDCODE}\n\n${STARTBLOCK}\n"
+  #printf "### ${STARTCODE}$(function_slug_to_dashes $FUNC)${ENDCODE}\n\n${STARTBLOCK}\n"
+  #printf "$(ENTRYPOINT $FUNC help)\n"
+  #printf "${ENDCODE}\n\n\n"
+  printf "### ${STARTCODE}$(function_slug_to_dashes $FUNC)${ENDCODE}\n\n"
   printf "$(ENTRYPOINT $FUNC help)\n"
-  printf "${ENDCODE}\n\n\n"
+  printf "\n\n\n"
 done
 
 printf "`cat << EOF
-
-# Commands
+5
+## Commands
 EOF
 `\n\n"
 
@@ -118,7 +122,7 @@ print_scope_help_summary "###" "ENTRYPOINT"
 if [ ! -z "$VAR_PREFIX_COMPONENT_LIST" ]; then
   printf "`cat << EOF
 
-# Components
+## Components
 EOF
   `\n\n"
 
@@ -129,19 +133,19 @@ EOF
   printf "\n\n"
 
   for COMPONENT in $VAR_PREFIX_COMPONENT_LIST; do
-    printf "## ${STARTCODE}$COMPONENT${ENDCODE}\n\n${STARTBLOCK}\n"
+    printf "### ${STARTCODE}$COMPONENT${ENDCODE}\n\n${STARTBLOCK}\n"
     printf "$(ENTRYPOINT $COMPONENT help)\n"
     printf "${ENDCODE}\n\n\n"
 
-    kbash_trace print_scope_help_summary "###" "ENTRYPOINT $COMPONENT" "$VAR_PREFIX_COMPONENT_DIR/$COMPONENT/commands"
-    print_scope_help_summary "###" "ENTRYPOINT $COMPONENT" "$VAR_PREFIX_COMPONENT_DIR/$COMPONENT/commands"
+    kbash_trace print_scope_help_summary "####" "ENTRYPOINT $COMPONENT" "$VAR_PREFIX_COMPONENT_DIR/$COMPONENT/commands"
+    print_scope_help_summary "####" "ENTRYPOINT $COMPONENT" "$VAR_PREFIX_COMPONENT_DIR/$COMPONENT/commands"
 
   done
 fi
 
 printf "`cat << EOF
 
-# About
+## About
 
 ${STARTBLOCK}$(ENTRYPOINT about )\n${ENDCODE}
 

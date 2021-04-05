@@ -1,7 +1,10 @@
 The ```kbash``` project add-on is a set of ```bash``` utilities supporting
-knowledge capture and orgnizing ad-hoc plumbing.  It is often useful in
+knowledge capture and organizing ad-hoc plumbing.  It is often useful in
 multi-component, multi-language software projects - especially if they use
-multiple build tools.
+multiple build tools.  And it can be useful in cobbling together disparate
+builds and systems to prototype components.  Once a project suite is stabilzied
+the kbash functionality should be absorbed into specific, formal, project
+appropriate infrastructure.
 
 # Quickstart
 
@@ -13,23 +16,48 @@ runs the default documentation command, and then exits the shell.
 git clone git@github.com:korsimoro/kbash ~/.kbash
 ~/.kbash/test/sanity.sh
 ```
-[Click here for example output](example-outputs#sanity)
+This will install a test environment and execute the entrypoint command
+to generate the default help output.
+[Click here for example output](docs/example-outputs#sanity)
+
+You can find Documentation in the current docs directory, by opening the
+[docs/index.html](docs/index.html) file with your local browser.
 
 # Bootstrap
 
 Applying ```kbash``` to an existing project is easy.  The following
-will add ```kbash``` support to your project.
+will add ```kbash``` support to your project, relying upon the global
+checkout for utility functions and separating project-specific configuration
+from generic utility core (typically in ```~/.kbash```)
 ```
 git clone git@github.com:korsimoro/kbash ~/.kbash
-~/.kbash/setup.sh <ENTRYPOINT> <VARSCOPE> <DIRECTORY>
+~/.kbash/setup.sh <ENTRYPOINT> <VAR_PREFIX> <DIRECTORY>
 <DIRECTORY>/shell.sh
 ```
+
+The three variable listed above are described here:
 
 | Argument   | Example |Description                            |
 |------------|---------|---------------------------------------|
 | ENTRYPOINT | ```kb```| This is the name of the command introduced into the environment, and the prefix on all defined shell assets (functions, internal variables) |
 | VAR_PREFIX   |```KB```|This is the prefix attached to all public variables used to describe and control the environment. |
-| DIRECTORY  | ```$PROJECT/kbash```| This is the directory in which the new ```kbash``` environment is to be set up.  Canonically it is in the kbash directory of your project.  This directory exists *in addition to* the clone above. |
+| DIRECTORY  | ```$PROJECT/kbash```| This is the directory in which the new, project specific, ```kbash``` environment is to be set up.  Canonically it is in the kbash directory of your project.  This directory exists *in addition to* the clone above. |
+
+# Development & Documentation
+
+If you are interested in developing or building kbash, please check
+out our [Developers](developers) file.  This talks about how to view
+and build the existing documentation.
+
+We use docker with [MkDoc-Material](https://squidfunk.github.io/mkdocs-material/getting-started/)
+
+# A Cool Trick
+
+You can run a single command within a kbash environment, without influencing
+the external execution environment.
+```
+echo "kx manual" | $BUILD_DOCS_BASE/../test/single.sh -i > $BUILD_DOCS_BASE/in/example-manual.md
+```
 
 # What is ```kbash``` and how would I use it?
 

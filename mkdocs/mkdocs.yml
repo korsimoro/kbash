@@ -1,15 +1,37 @@
 site_name: KBash
-site_dir: ../docs
+site_dir: ./docs
 docs_dir: ./in
+theme:
+  name: material
+  palette:
+    scheme: default
+    primary: green
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.toc
+    - toc.integrate
+
+markdown_extensions:
+  - toc:
+      toc_depth: 3
+
 nav:
-  - Home: index.md
-  - Operations: ops.md
-  - Layout: layout.md
+  - Getting Started: index.md
+  - Development:
+    - Overview: development.md
+    - Layout: layout.md
+    - KV-SH: kv-sh.md
   - API:
     - Intro: api/intro.md
     - Commands: api/commands.md
     - Functions: api/functions.md
     - Util: api/util.md
-  - Examples:
-     - Output: example-outputs.md
-     - Manual: example-manual.md
+  - Sanity Test:
+    - Output: example-outputs.md
+    - Manual: example-manual.md

@@ -21,19 +21,18 @@ scripts, if you want a quick check to determine your operating system
 - is_linux
 - is_windows
 
-This is based off of ```uname``` - so.  You can use kbash-os to show you
+This is based off of ${STARTCODE}uname${ENDCODE} - so.  You can use kbash-os to show you
 the uname output and check the value so is_osx, is_linux, is_windows
 
 For example:
-```
-> ENTRYPOINT kbash-os
-Checking os: uname ='Linux kisia 4.15.0-48-generic #51-Ubuntu SMP Wed Apr 3 08:28:49 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux'
-Linux Detected
->
-```
-
+${STARTBLOCK}
+  > ENTRYPOINT kbash-os
+  Checking os: uname ='Linux kisia 4.15.0-48-generic #51-Ubuntu SMP Wed Apr 3 08:28:49 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux'
+  Linux Detected
+  >
+${ENDCODE}
 EOF
-`\n"
+`\n\n"
 }
 export -f help_ENTRYPOINT_kbash_os
 
