@@ -28,6 +28,10 @@ export KBASH_PS1="${KBASH_PS1:-$PS1}"
 # language configuration
 export KBASH_LANGUAGE_LIST=""
 
+# is this the local config?
+export DB_DIR=$KBASH/kv-sh-env
+. $KBASH/kv-sh/kv-sh
+
 if [ -z "${!VAR_PREFIX}" ]; then
   echo "The $VAR_PREFIX variable is not set - this must be set in activate"
 else

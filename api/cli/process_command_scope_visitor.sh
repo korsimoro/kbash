@@ -27,7 +27,7 @@ ENTRYPOINT_process_command_scope_visitor() {
         kbash_trace visitor-file-help-requested "$FIRST_ARG $@"
         print_help "$@"
       else
-        kbash_trace visitor-file-execution-requested "$FIRST_ARG $@"
+        kbash_trace visitor-file-execution-requested "$FILE $FIRST_ARG $@"
         set -e
         run $@
       fi
